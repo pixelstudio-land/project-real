@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerador de Crachá — Real Pisos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .photo-upload-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 28px 0;
+      border: 2px dashed rgba(255,255,255,0.2);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.6);
+      transition: all 0.2s;
+      background: transparent;
+      font-family: var(--font-body);
+    }
+    .photo-upload-btn:hover { border-color: var(--gold); color: var(--gold-light); }
+    #file-input { display: none; }
+
+    /* Print: imprimir apenas o crachá, no tamanho real */
+    @media print {
+      body { background: white; }
+      .sidebar, .preview-panel h2, .print-hint { display: none !important; }
+      .page-wrapper { display: block; }
+      .preview-panel { padding: 0; background: white; display: flex; justify-content: center; align-items: flex-start; padding-top: 10mm; }
+      #cracha-card {
+        width: 54mm;
+        height: 86mm;
+        border-radius: 0;
+        box-shadow: none;
+        font-size: 8pt;
+      }
+      .cracha-name { font-size: 13pt !important; }
+    }
+    @page { size: A4; margin: 10mm; }
+
+    .print-hint {
+      font-size: 0.75rem;
+      color: var(--gray-400);
+      text-align: center;
+      max-width: 300px;
+      line-height: 1.6;
+    }
+    .badge-scale {
+      transform: scale(1.4);
+      transform-origin: top center;
+      margin-bottom: 60px;
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- ── SIDEBAR ─────────────────────────────────── -->
+  <aside class="sidebar">
+    <a href="index.html" class="back-link">← Voltar ao Portal</a>
+    <img src="assets/logo.jpg" alt="Real Pisos" class="sidebar-logo" />
+    <div>
+      <p class="sidebar-title">Gerador<br>de Crachá</p>
+      <p class="sidebar-subtitle">Real Pisos — Laminados e Vinílicos</p>
+    </div>
+    <hr />
+
+    <p class="sidebar-section-title">Dados do Funcionário</p>
+    <div class="form-group">
+      <label class="form-label" for="cr-nome">Nome Completo</label>
+      <input class="form-input" type="text" id="cr-nome" placeholder="Kelly Pisos" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="cr-cargo">Cargo</label>
+      <input class="form-input" type="text" id="cr-cargo" placeholder="Gerente Comercial" />
+    </div>
+
+    <hr />
+    <p class="sidebar-section-title">Foto</p>
+
+    <input type="file" id="file-input" accept="image/*" onchange="loadPhoto(event)" />
+    <label for="file-input" class="photo-upload-btn">
+      📷 Clique para carregar foto
+    </label>
+    <button class="btn btn-outline" style="font-size:0.78rem; padding:8px 16px" onclick="removePhoto()">✕ Remover Foto</button>
+
+    <hr />
+    <button class="btn btn-gold" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+  </aside>
+
+  <!-- ── PREVIEW ─────────────────────────────────── -->
+  <div class="preview-panel">
+    <h2>Pré-visualização do crachá (ampliado)</h2>
+
+    <div class="cracha-preview-area">
+      <div class="badge-scale">
+        <div id="cracha-card">
+          <div class="cracha-top-bar"></div>
+
+          <div class="cracha-logo-area">
+            <img src="assets/logo.jpg" alt="Real Pisos" />
+          </div>
+
+          <div class="cracha-divider"></div>
+
+          <div class="cracha-photo-wrapper" id="photo-wrapper">
+            <span class="cracha-photo-placeholder" id="photo-placeholder">👤</span>
+            <img id="cracha-photo" src="" alt="Foto" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:50%;" />
+          </div>
+
+          <div class="cracha-info">
+            <div class="cracha-name" id="preview-nome">Nome</div>
+            <div class="cracha-cargo" id="preview-cargo">Cargo</div>
+          </div>
+
+          <div class="cracha-bottom-bar">Real Pisos</div>
+        </div>
+      </div>
+
+      <p class="print-hint">
+        Tamanho real: 54 × 86mm (padrão ID)<br>
+        Ao imprimir, selecione <strong>"Tamanho real"</strong> nas opções de impressão para obter as dimensões corretas.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Bind nome e cargo ao preview
+  document.getElementById('cr-nome').addEventListener('input', (e) => {
+    document.getElementById('preview-nome').textContent = e.target.value || 'Nome';
+  });
+  document.getElementById('cr-cargo').addEventListener('input', (e) => {
+    document.getElementById('preview-cargo').textContent = e.target.value || 'Cargo';
+  });
+
+  // Upload de foto
+  function loadPhoto(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = document.getElementById('cracha-photo');
+      const placeholder = document.getElementById('photo-placeholder');
+      img.src = e.target.result;
+      img.style.display = 'block';
+      placeholder.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function removePhoto() {
+    const img = document.getElementById('cracha-photo');
+    const placeholder = document.getElementById('photo-placeholder');
+    img.src = '';
+    img.style.display = 'none';
+    placeholder.style.display = 'block';
+    document.getElementById('file-input').value = '';
+  }
+</script>
+</body>
+</html>

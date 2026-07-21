@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerador de Orçamento — Real Pisos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- ── SIDEBAR ─────────────────────────────────── -->
+  <aside class="sidebar">
+    <a href="index.html" class="back-link">← Voltar ao Portal</a>
+    <img src="assets/logo.jpg" alt="Real Pisos" class="sidebar-logo" />
+    <div>
+      <p class="sidebar-title">Gerador de<br>Orçamento</p>
+      <p class="sidebar-subtitle">Real Pisos — Laminados e Vinílicos</p>
+    </div>
+    <hr />
+
+    <!-- Dados do orçamento -->
+    <p class="sidebar-section-title">Identificação</p>
+    <div class="form-group">
+      <label class="form-label" for="orc-numero">Nº do Orçamento</label>
+      <input class="form-input" type="text" id="orc-numero" placeholder="ORC-001" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="orc-data">Data</label>
+      <input class="form-input" type="date" id="orc-data" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="orc-validade">Validade</label>
+      <input class="form-input" type="date" id="orc-validade" />
+    </div>
+
+    <hr />
+    <!-- Dados do cliente -->
+    <p class="sidebar-section-title">Dados do Cliente</p>
+    <div class="form-group">
+      <label class="form-label" for="cli-nome">Nome / Empresa</label>
+      <input class="form-input" type="text" id="cli-nome" placeholder="João da Silva" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="cli-telefone">Telefone / WhatsApp</label>
+      <input class="form-input" type="text" id="cli-telefone" placeholder="(31) 9 XXXX-XXXX" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="cli-email">E-mail</label>
+      <input class="form-input" type="email" id="cli-email" placeholder="cliente@email.com" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="cli-endereco">Endereço da Obra</label>
+      <input class="form-input" type="text" id="cli-endereco" placeholder="Rua, número, bairro" />
+    </div>
+
+    <hr />
+    <!-- Condições -->
+    <p class="sidebar-section-title">Condições</p>
+    <div class="form-group">
+      <label class="form-label" for="orc-prazo">Prazo de Entrega</label>
+      <input class="form-input" type="text" id="orc-prazo" placeholder="5 a 7 dias úteis" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="orc-pagamento">Forma de Pagamento</label>
+      <select class="form-select" id="orc-pagamento">
+        <option value="À vista (Pix/Dinheiro)">À vista (Pix / Dinheiro)</option>
+        <option value="Cartão de Crédito (até 3x)">Cartão de Crédito (até 3x)</option>
+        <option value="Cartão de Crédito (até 6x)">Cartão de Crédito (até 6x)</option>
+        <option value="Boleto Bancário">Boleto Bancário</option>
+        <option value="50% entrada + saldo na entrega">50% entrada + saldo na entrega</option>
+      </select>
+    </div>
+
+    <hr />
+    <!-- Observações -->
+    <p class="sidebar-section-title">Observações</p>
+    <div class="form-group">
+      <label class="form-label" for="orc-obs">Texto livre</label>
+      <textarea class="form-textarea" id="orc-obs" placeholder="Ex: Instalação inclusa. Material sujeito à disponibilidade de estoque."></textarea>
+    </div>
+
+    <button class="btn btn-gold" id="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+  </aside>
+
+  <!-- ── PREVIEW ─────────────────────────────────── -->
+  <div class="preview-panel">
+    <h2>Pré-visualização do documento</h2>
+
+    <div id="doc-orcamento">
+      <!-- Header Preto -->
+      <div class="doc-header-bar">
+        <img src="assets/logo.jpg" alt="Real Pisos" class="doc-logo" />
+        <div class="doc-header-right">
+          <h2>ORÇAMENTO</h2>
+          <p class="doc-numero" id="preview-numero">Nº ORC-001</p>
+        </div>
+      </div>
+      <div class="doc-gold-strip"></div>
+
+      <!-- Corpo -->
+      <div class="doc-body">
+
+        <!-- Meta: Dados do orçamento e do cliente -->
+        <div class="doc-meta-grid">
+          <div>
+            <div class="doc-meta-block">
+              <p class="doc-meta-label">Cliente</p>
+              <p class="doc-meta-value" id="preview-cli-nome">—</p>
+            </div>
+            <br/>
+            <div class="doc-meta-block">
+              <p class="doc-meta-label">Telefone</p>
+              <p class="doc-meta-value" id="preview-cli-telefone">—</p>
+            </div>
+            <br/>
+            <div class="doc-meta-block">
+              <p class="doc-meta-label">Endereço da Obra</p>
+              <p class="doc-meta-value" id="preview-cli-endereco">—</p>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div class="doc-meta-block">
+              <p class="doc-meta-label">Data</p>
+              <p class="doc-meta-value" id="preview-data">—</p>
+            </div>
+            <br/>
+            <div class="doc-meta-block">
+              <p class="doc-meta-label">Validade</p>
+              <p class="doc-meta-value" id="preview-validade">—</p>
+            </div>
+            <br/>
+            <div class="doc-meta-block">
+              <p class="doc-meta-label">Pagamento</p>
+              <p class="doc-meta-value" id="preview-pagamento">À vista (Pix / Dinheiro)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabela de Itens -->
+        <p class="doc-section-title">Itens do Orçamento</p>
+        <table class="items-table" id="items-table">
+          <thead>
+            <tr>
+              <th style="width:36%">Produto / Descrição</th>
+              <th style="width:18%">Área (m²)</th>
+              <th style="width:18%">Valor/m²</th>
+              <th style="width:13%">Desconto</th>
+              <th style="width:15%" class="text-right">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody id="items-body">
+            <!-- linhas geradas por JS -->
+          </tbody>
+        </table>
+
+        <button class="btn btn-outline" id="btn-add-item" onclick="addItem()" style="margin-bottom:24px; font-size:0.78rem;">
+          + Adicionar Item
+        </button>
+
+        <!-- Totais -->
+        <div class="totais-block" id="totais-block">
+          <div class="totais-row">
+            <span>Subtotal</span>
+            <span id="t-subtotal">R$ 0,00</span>
+          </div>
+          <div class="totais-row">
+            <span>Desconto Total</span>
+            <span id="t-desconto">— R$ 0,00</span>
+          </div>
+          <div class="totais-row total-final">
+            <span>TOTAL</span>
+            <span id="t-total">R$ 0,00</span>
+          </div>
+        </div>
+
+        <!-- Prazo de entrega -->
+        <p class="doc-section-title" style="margin-top:20px;">Prazo de Entrega</p>
+        <p id="preview-prazo" style="font-size:9.5pt; margin-bottom:20px;">—</p>
+
+        <!-- Observações -->
+        <div class="doc-obs" id="preview-obs-wrapper" style="display:none">
+          <strong>Observações:</strong><br/>
+          <span id="preview-obs"></span>
+        </div>
+
+        <!-- Rodapé de contato -->
+        <div class="doc-footer-contacts">
+          <span>📱 <strong>(31) 9 9469-9586</strong></span>
+          <span>📷 <strong>@realpisoslaminados</strong></span>
+          <span>👤 <strong>@realpisoslaminados</strong></span>
+        </div>
+
+        <!-- Marca d'água -->
+        <img src="assets/logo-dagua.png" alt="" class="doc-watermark" />
+      </div>
+    </div><!-- /#doc-orcamento -->
+  </div><!-- /.preview-panel -->
+</div><!-- /.page-wrapper -->
+
+<script src="orcamento.js"></script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Papel Timbrado — Real Pisos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .toolbar button {
+      padding: 6px 12px;
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 4px;
+      background: transparent;
+      color: var(--white);
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-family: var(--font-body);
+      transition: all 0.2s;
+    }
+    .toolbar button:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: var(--gold);
+      color: var(--gold-light);
+    }
+    .toolbar button.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--black);
+    }
+    .toolbar-sep {
+      width: 1px;
+      height: 24px;
+      background: rgba(255,255,255,0.15);
+    }
+    .font-size-select {
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 4px;
+      color: var(--white);
+      padding: 5px 8px;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+    }
+    .font-size-select option { color: #1A1A1A; background: #fff; }
+  </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- ── SIDEBAR ─────────────────────────────────── -->
+  <aside class="sidebar">
+    <a href="index.html" class="back-link">← Voltar ao Portal</a>
+    <img src="assets/logo.jpg" alt="Real Pisos" class="sidebar-logo" />
+    <div>
+      <p class="sidebar-title">Papel<br>Timbrado</p>
+      <p class="sidebar-subtitle">Real Pisos — Laminados e Vinílicos</p>
+    </div>
+    <hr />
+
+    <p class="sidebar-section-title">Formatação de Texto</p>
+    <div class="toolbar">
+      <button onclick="execCmd('bold')" title="Negrito"><b>B</b></button>
+      <button onclick="execCmd('italic')" title="Itálico"><i>I</i></button>
+      <button onclick="execCmd('underline')" title="Sublinhado"><u>S</u></button>
+      <div class="toolbar-sep"></div>
+      <button onclick="execCmd('justifyLeft')" title="Esquerda">⬅</button>
+      <button onclick="execCmd('justifyCenter')" title="Centro">⬛</button>
+      <button onclick="execCmd('justifyRight')" title="Direita">➡</button>
+      <button onclick="execCmd('justifyFull')" title="Justificado">☰</button>
+      <div class="toolbar-sep"></div>
+      <button onclick="execCmd('insertUnorderedList')" title="Lista">• Lista</button>
+      <div class="toolbar-sep"></div>
+      <select class="font-size-select" onchange="execCmdVal('fontSize', this.value)">
+        <option value="2">10pt</option>
+        <option value="3" selected>12pt</option>
+        <option value="4">14pt</option>
+        <option value="5">18pt</option>
+        <option value="6">24pt</option>
+        <option value="7">36pt</option>
+      </select>
+    </div>
+
+    <hr />
+    <p class="sidebar-section-title">Inserir Elementos</p>
+    <button class="btn btn-outline" style="font-size:0.78rem; padding:8px 16px" onclick="insertDate()">📅 Inserir Data Atual</button>
+    <button class="btn btn-outline" style="font-size:0.78rem; padding:8px 16px" onclick="insertSignBlock()">✍️ Inserir Bloco de Assinatura</button>
+
+    <hr />
+    <button class="btn btn-gold" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+    <button class="btn btn-dark" onclick="clearDoc()">🗑️ Limpar Documento</button>
+  </aside>
+
+  <!-- ── PREVIEW / EDITOR ─────────────────────────── -->
+  <div class="preview-panel">
+    <h2>Clique no documento para editar</h2>
+
+    <div id="doc-timbrado">
+      <!-- Cabeçalho fixo -->
+      <div class="timbrado-header">
+        <img src="assets/logo.jpg" alt="Real Pisos" />
+        <div class="timbrado-header-text">
+          <h1>REAL PISOS</h1>
+          <p>Laminados e Vinílicos</p>
+        </div>
+      </div>
+      <div class="timbrado-gold-line"></div>
+
+      <!-- Corpo editável -->
+      <div class="timbrado-body">
+        <img src="assets/logo-dagua.png" alt="" class="watermark-bg" />
+        <div id="timbrado-editor" contenteditable="true" spellcheck="true">
+        </div>
+      </div>
+
+      <!-- Rodapé fixo -->
+      <div class="timbrado-footer">
+        <div class="timbrado-footer-inner">
+          <span>📱 (31) 9 9469-9586</span>
+          <span>📷 @realpisoslaminados</span>
+          <span>👤 @realpisoslaminados</span>
+        </div>
+      </div>
+    </div><!-- /#doc-timbrado -->
+  </div>
+</div>
+
+<script>
+  function execCmd(cmd) {
+    document.getElementById('timbrado-editor').focus();
+    document.execCommand(cmd, false, null);
+  }
+  function execCmdVal(cmd, val) {
+    document.getElementById('timbrado-editor').focus();
+    document.execCommand(cmd, false, val);
+  }
+  function insertDate() {
+    const d = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+    document.getElementById('timbrado-editor').focus();
+    document.execCommand('insertText', false, d);
+  }
+  function insertSignBlock() {
+    document.getElementById('timbrado-editor').focus();
+    const block = `\n\n\n________________________________\nNome: \nCargo: \nData: `;
+    document.execCommand('insertText', false, block);
+  }
+  function clearDoc() {
+    if (confirm('Limpar todo o conteúdo do documento?')) {
+      document.getElementById('timbrado-editor').innerHTML = '';
+    }
+  }
+</script>
+</body>
+</html>
