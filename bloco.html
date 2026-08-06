@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bloco de Anotações — Real Pisos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black:      #1A1A1A;
+      --gold:       #B8962E;
+      --gold-light: #D4AF55;
+      --gold-dark:  #8C6E1A;
+      --white:      #FAFAFA;
+      --off-white:  #F4F1EB;
+      --gray:       #5C5550;
+      --font-title: 'Cormorant Garamond', Georgia, serif;
+      --font-body:  'Montserrat', Arial, sans-serif;
+      --gold-gradient: linear-gradient(135deg, #B8962E 0%, #D4AF55 50%, #8C6E1A 100%);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #2a2a2a;
+      font-family: var(--font-body);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .toolbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: #111;
+      border-bottom: 2px solid var(--gold);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .toolbar a { color: var(--gold-light); text-decoration: none; font-size: 0.78rem; letter-spacing: 0.08em; font-family: var(--font-body); }
+    .toolbar a:hover { color: var(--white); }
+    .toolbar-title { color: var(--white); font-family: var(--font-title); font-size: 1.1rem; flex: 1; text-align: center; }
+    .btn-print {
+      background: var(--gold-gradient);
+      color: var(--black);
+      border: none;
+      padding: 8px 22px;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+
+    .page-label {
+      color: #888;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 76px;
+      margin-bottom: 6px;
+    }
+    .page-label:not(:first-of-type) { margin-top: 32px; }
+
+    /* A5 = 148×210mm → 559×794px a 96dpi */
+    .page {
+      width: 559px;
+      height: 794px;
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .gold-line { height: 3px; background: var(--gold-gradient); flex-shrink: 0; }
+    .black-line { height: 3px; background: var(--black); flex-shrink: 0; }
+
+    /* ═══════════════
+       CAPA
+       ═══════════════ */
+    .capa {
+      background: var(--black);
+    }
+
+    .capa-top-bar { height: 4px; background: var(--gold-gradient); }
+
+    .capa-inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 40px 36px;
+      position: relative;
+    }
+
+    .capa-inner img.logo {
+      width: 90px;
+      background: var(--white);
+      padding: 8px;
+      border-radius: 2px;
+    }
+
+    .capa-divider {
+      width: 48px;
+      height: 1.5px;
+      background: var(--gold);
+      opacity: 0.6;
+    }
+
+    .capa-nome {
+      font-family: var(--font-title);
+      font-size: 26pt;
+      font-weight: 700;
+      color: var(--white);
+      text-align: center;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+    }
+
+    .capa-slogan {
+      font-size: 7pt;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      text-align: center;
+    }
+
+    .capa-watermark {
+      position: absolute;
+      width: 260px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+
+    .capa-bottom {
+      padding: 16px 36px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .capa-contact {
+      display: flex;
+      gap: 20px;
+      font-size: 7pt;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.06em;
+    }
+
+    /* ═══════════════
+       CONTRACAPA
+       ═══════════════ */
+    .contracapa {
+      background: var(--off-white);
+    }
+
+    .contracapa-header {
+      background: var(--black);
+      padding: 20px 32px;
+    }
+    .contracapa-header p {
+      font-size: 7pt;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+    }
+
+    .contracapa-body {
+      flex: 1;
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contato-block {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .contato-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: var(--white);
+      border-radius: 3px;
+      border-left: 2.5px solid var(--gold);
+    }
+    .contato-item .ci-icon { font-size: 13pt; }
+    .contato-item .ci-text { font-size: 8.5pt; color: var(--gray); }
+    .contato-item .ci-text strong { display: block; font-size: 9pt; color: var(--black); }
+
+    .contracapa-monograma {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .contracapa-monograma img { width: 100px; opacity: 0.1; }
+
+    .contracapa-footer {
+      background: var(--black);
+      padding: 12px 32px;
+    }
+    .contracapa-footer p {
+      font-size: 6.5pt;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+    }
+
+    /* ── PRINT ────────────────────────────────────────────────── */
+    @media print {
+      body { background: white; }
+      .toolbar, .page-label { display: none !important; }
+      .page {
+        box-shadow: none;
+        width: 148mm;
+        height: 210mm;
+        page-break-after: always;
+        margin: 0;
+        overflow: hidden;
+      }
+    }
+    @page { size: A5; margin: 0; }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <a href="index.html">← Voltar ao Portal</a>
+    <span class="toolbar-title">Bloco de Anotações — Real Pisos (A5)</span>
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+  </div>
+
+  <!-- CAPA -->
+  <div class="page-label">Capa (A5)</div>
+  <div class="page capa">
+    <div class="capa-top-bar"></div>
+    <div class="capa-inner">
+      <img class="logo" src="assets/logo.jpg" alt="Real Pisos" />
+      <div class="capa-divider"></div>
+      <h1 class="capa-nome">Real Pisos</h1>
+      <p class="capa-slogan">Laminados &amp; Vinílicos</p>
+      <img src="assets/monograma.png" alt="" class="capa-watermark" />
+    </div>
+    <div class="capa-bottom">
+      <div class="capa-contact">
+        <span>📱 (31) 9 9469-9586</span>
+        <span>📷 @realpisoslaminados</span>
+      </div>
+    </div>
+    <div class="gold-line"></div>
+  </div>
+
+  <!-- CONTRACAPA -->
+  <div class="page-label">Contracapa (A5)</div>
+  <div class="page contracapa">
+    <div class="gold-line"></div>
+    <div class="contracapa-header">
+      <p>Real Pisos — Laminados e Vinílicos</p>
+    </div>
+
+    <div class="contracapa-body">
+      <div class="contato-block">
+        <div class="contato-item">
+          <span class="ci-icon">📱</span>
+          <div class="ci-text">
+            <strong>(31) 9 9469-9586</strong>
+            WhatsApp · Ligue ou mande mensagem
+          </div>
+        </div>
+        <div class="contato-item">
+          <span class="ci-icon">📷</span>
+          <div class="ci-text">
+            <strong>@realpisoslaminados</strong>
+            Instagram — veja nossos projetos
+          </div>
+        </div>
+        <div class="contato-item">
+          <span class="ci-icon">👤</span>
+          <div class="ci-text">
+            <strong>@realpisoslaminados</strong>
+            Facebook
+          </div>
+        </div>
+        <div class="contato-item">
+          <span class="ci-icon">📍</span>
+          <div class="ci-text">
+            <strong><!-- CONFIRMAR -->Endereço a confirmar</strong>
+            Visite nossa loja
+          </div>
+        </div>
+      </div>
+
+      <div class="contracapa-monograma">
+        <img src="assets/monograma.png" alt="" />
+      </div>
+    </div>
+
+    <div class="contracapa-footer">
+      <p>Solicite seu orçamento grátis · Instalação profissional inclusa · Resposta em até 2h</p>
+    </div>
+    <div class="gold-line"></div>
+  </div>
+
+</body>
+</html>

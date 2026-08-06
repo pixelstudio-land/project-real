@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Folder — Real Pisos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ───────────────────────────────────────────────── */
+    :root {
+      --black:      #1A1A1A;
+      --gold:       #B8962E;
+      --gold-light: #D4AF55;
+      --gold-dark:  #8C6E1A;
+      --white:      #FAFAFA;
+      --off-white:  #F4F1EB;
+      --gray:       #5C5550;
+      --font-title: 'Cormorant Garamond', Georgia, serif;
+      --font-body:  'Montserrat', Arial, sans-serif;
+      --gold-gradient: linear-gradient(135deg, #B8962E 0%, #D4AF55 50%, #8C6E1A 100%);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── TELA (visualização no navegador) ─────────────────────── */
+    body {
+      background: #2a2a2a;
+      font-family: var(--font-body);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 0;
+    }
+
+    /* Barra de ferramentas */
+    .toolbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: #111;
+      border-bottom: 2px solid var(--gold);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .toolbar a {
+      color: var(--gold-light);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      font-family: var(--font-body);
+    }
+    .toolbar a:hover { color: var(--white); }
+    .toolbar-title {
+      color: var(--white);
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      flex: 1;
+      text-align: center;
+    }
+    .btn-print {
+      background: var(--gold-gradient);
+      color: var(--black);
+      border: none;
+      padding: 8px 22px;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    .btn-print:hover { filter: brightness(1.1); }
+
+    .sheet-label {
+      color: #888;
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 80px;
+      margin-bottom: 8px;
+    }
+    .sheet-label:not(:first-of-type) { margin-top: 48px; }
+
+    /* ── FOLHA A4 ─────────────────────────────────────────────── */
+    /* A4 = 210×297mm. Gráfica pede 3mm de sangria → 216×303mm
+       Mas para o navegador usamos 794×1123px (A4 a 96dpi sem sangria)
+       e deixamos a sangria como nota para a gráfica. */
+    .sheet {
+      width: 794px;
+      height: 1123px;
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+      display: grid;
+      /* A4 dobrado: lado direito = capa/contracapa, lado esquerdo = interna */
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* ── PAINÉIS ──────────────────────────────────────────────── */
+    .panel {
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Linha divisória central (dobra) */
+    .sheet::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 50%;
+      width: 1px;
+      background: rgba(0,0,0,0.08);
+      pointer-events: none;
+    }
+
+    /* ═══════════════════════════════════════════════
+       FRENTE DA FOLHA
+       Painel direito = CAPA | Painel esquerdo = CONTRACAPA
+       ═══════════════════════════════════════════════ */
+
+    /* CAPA (painel direito da frente) */
+    .capa {
+      background: var(--black);
+      justify-content: space-between;
+      padding: 0;
+    }
+
+    .capa-topo {
+      padding: 48px 40px 0;
+    }
+
+    .capa-gold-line {
+      height: 3px;
+      background: var(--gold-gradient);
+      margin-bottom: 40px;
+    }
+
+    .capa-logo {
+      width: 110px;
+      background: var(--white);
+      padding: 8px;
+      border-radius: 2px;
+      display: block;
+      margin-bottom: 48px;
+    }
+
+    .capa-headline {
+      font-family: var(--font-title);
+      font-size: 34pt;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+    }
+
+    .capa-headline em {
+      color: var(--gold-light);
+      font-style: italic;
+    }
+
+    .capa-subheadline {
+      font-size: 8.5pt;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-top: 14px;
+      font-weight: 500;
+    }
+
+    .capa-imagem-wrapper {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      margin-top: 32px;
+    }
+
+    .capa-imagem-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, #2a2520 0%, #1A1A1A 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: rgba(255,255,255,0.15);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .capa-imagem-placeholder .icon { font-size: 2.5rem; opacity: 0.3; }
+
+    /* Diagonal dourada decorativa */
+    .capa-degrade {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 120px;
+      background: linear-gradient(0deg, rgba(184,150,46,0.18) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* CONTRACAPA (painel esquerdo da frente) */
+    .contracapa {
+      background: var(--off-white);
+      justify-content: space-between;
+      padding: 0;
+    }
+
+    .contracapa-top {
+      padding: 40px 36px 0;
+    }
+
+    .contracapa-gold-line {
+      height: 3px;
+      background: var(--gold-gradient);
+      margin-bottom: 36px;
+    }
+
+    .contracapa-slogan {
+      font-family: var(--font-title);
+      font-size: 15pt;
+      color: var(--black);
+      font-style: italic;
+      line-height: 1.4;
+      margin-bottom: 28px;
+    }
+
+    .contracapa-contatos {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .contato-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .contato-icon {
+      font-size: 13pt;
+      line-height: 1;
+      width: 20px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .contato-text {
+      font-size: 8.5pt;
+      line-height: 1.5;
+      color: var(--gray);
+    }
+    .contato-text strong {
+      color: var(--black);
+      display: block;
+      font-size: 9pt;
+    }
+
+    .contracapa-monograma {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .contracapa-monograma img {
+      width: 140px;
+      opacity: 0.07;
+    }
+
+    .contracapa-bottom {
+      padding: 0 36px 32px;
+    }
+
+    .qr-area {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--black);
+      padding: 14px 18px;
+      border-radius: 4px;
+    }
+    .qr-placeholder {
+      width: 56px;
+      height: 56px;
+      background: var(--white);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9pt;
+      color: var(--black);
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.2;
+      flex-shrink: 0;
+    }
+    .qr-text {
+      font-size: 7.5pt;
+      color: var(--white);
+      line-height: 1.5;
+      letter-spacing: 0.04em;
+    }
+    .qr-text strong {
+      display: block;
+      color: var(--gold-light);
+      font-size: 8pt;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    /* ═══════════════════════════════════════════════
+       VERSO DA FOLHA
+       Painel esquerdo = INTERNA 1 | Painel direito = INTERNA 2
+       ═══════════════════════════════════════════════ */
+
+    /* INTERNA 1 — Sobre a empresa + Diferenciais */
+    .interna1 {
+      background: var(--white);
+      padding: 0;
+    }
+
+    .interna1-header {
+      background: var(--black);
+      padding: 28px 36px 24px;
+    }
+    .interna1-header h2 {
+      font-family: var(--font-title);
+      font-size: 18pt;
+      color: var(--white);
+      font-weight: 700;
+    }
+    .interna1-header p {
+      font-size: 7.5pt;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-top: 4px;
+    }
+    .interna1-gold-line { height: 3px; background: var(--gold-gradient); }
+
+    .interna1-body {
+      padding: 28px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      flex: 1;
+    }
+
+    .interna1-intro {
+      font-size: 9pt;
+      color: var(--gray);
+      line-height: 1.8;
+    }
+    .interna1-intro strong { color: var(--black); }
+
+    .section-label {
+      font-size: 7pt;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      font-weight: 700;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1.5px solid var(--gold);
+    }
+
+    .diferenciais-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .diferenciais-list li {
+      font-size: 8.5pt;
+      color: var(--gray);
+      line-height: 1.6;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .diferenciais-list li::before {
+      content: '◆';
+      color: var(--gold);
+      font-size: 7pt;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+    .diferenciais-list li strong { color: var(--black); }
+
+    .cta-box {
+      background: var(--black);
+      padding: 18px 20px;
+      border-radius: 4px;
+      margin-top: auto;
+    }
+    .cta-box p {
+      font-size: 8pt;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 8px;
+    }
+    .cta-box .cta-phone {
+      font-family: var(--font-title);
+      font-size: 16pt;
+      color: var(--gold-light);
+      font-weight: 700;
+      display: block;
+    }
+    .cta-box .cta-sub {
+      font-size: 7pt;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      margin-top: 2px;
+    }
+
+    /* INTERNA 2 — Produtos */
+    .interna2 {
+      background: var(--off-white);
+      padding: 0;
+    }
+
+    .interna2-header {
+      background: var(--gold-gradient);
+      padding: 28px 36px 24px;
+    }
+    .interna2-header h2 {
+      font-family: var(--font-title);
+      font-size: 18pt;
+      color: var(--black);
+      font-weight: 700;
+    }
+    .interna2-header p {
+      font-size: 7.5pt;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.5);
+      margin-top: 4px;
+    }
+    .interna2-black-line { height: 3px; background: var(--black); }
+
+    .interna2-body {
+      padding: 28px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .produto-card {
+      background: var(--white);
+      border-left: 3px solid var(--gold);
+      padding: 14px 16px;
+      border-radius: 0 4px 4px 0;
+    }
+    .produto-card h3 {
+      font-family: var(--font-title);
+      font-size: 13pt;
+      color: var(--black);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .produto-card p {
+      font-size: 8pt;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+    .produto-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 8px;
+    }
+    .tag {
+      background: var(--black);
+      color: var(--gold-light);
+      font-size: 6.5pt;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+      font-weight: 600;
+    }
+
+    .img-placeholder {
+      width: 100%;
+      height: 80px;
+      background: linear-gradient(135deg, #e8e4dc 0%, #d4cfc5 100%);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9A9080;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    /* ── PRINT ────────────────────────────────────────────────── */
+    @media print {
+      body { background: white; padding: 0; }
+      .toolbar, .sheet-label { display: none !important; }
+      .sheet {
+        box-shadow: none;
+        width: 210mm;
+        height: 297mm;
+        page-break-after: always;
+        margin: 0;
+      }
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── BARRA DE FERRAMENTAS ─────────────────────────────── -->
+  <div class="toolbar">
+    <a href="index.html">← Voltar ao Portal</a>
+    <span class="toolbar-title">Folder Real Pisos — Frente &amp; Verso</span>
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       FOLHA 1 — FRENTE
+       (ao dobrar: capa à direita, contracapa à esquerda)
+       ════════════════════════════════════════════════════════ -->
+  <div class="sheet-label">FRENTE — Capa (direita) | Contracapa (esquerda)</div>
+
+  <div class="sheet" id="sheet-frente">
+
+    <!-- CONTRACAPA (painel esquerdo da folha) -->
+    <div class="panel contracapa">
+      <div class="contracapa-top">
+        <div class="contracapa-gold-line"></div>
+        <p class="contracapa-slogan">
+          "Transformamos ambientes com qualidade, elegância e precisão na instalação."
+        </p>
+
+        <p class="section-label">Onde nos encontrar</p>
+        <div class="contracapa-contatos">
+          <div class="contato-item">
+            <span class="contato-icon">📱</span>
+            <div class="contato-text">
+              <strong>(31) 9 9469-9586</strong>
+              WhatsApp · Ligue ou mande mensagem
+            </div>
+          </div>
+          <div class="contato-item">
+            <span class="contato-icon">📷</span>
+            <div class="contato-text">
+              <strong>@realpisoslaminados</strong>
+              Instagram · Veja nossos projetos
+            </div>
+          </div>
+          <div class="contato-item">
+            <span class="contato-icon">👤</span>
+            <div class="contato-text">
+              <strong>@realpisoslaminados</strong>
+              Facebook
+            </div>
+          </div>
+          <div class="contato-item">
+            <span class="contato-icon">📍</span>
+            <div class="contato-text">
+              <strong>Endereço</strong>
+              <!-- CONFIRMAR com a cliente -->
+              A confirmar
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contracapa-monograma">
+        <img src="assets/monograma.png" alt="" />
+      </div>
+
+      <div class="contracapa-bottom">
+        <div class="qr-area">
+          <div class="qr-placeholder">QR<br>CODE</div>
+          <div class="qr-text">
+            <strong>Orçamento grátis</strong>
+            Aponte a câmera do celular<br>
+            e fale com a gente agora
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAPA (painel direito da folha) -->
+    <div class="panel capa">
+      <div class="capa-topo">
+        <div class="capa-gold-line"></div>
+        <img src="assets/logo.jpg" alt="Real Pisos" class="capa-logo" />
+        <h1 class="capa-headline">
+          Pisos que<br>
+          <em>transformam</em><br>
+          ambientes.
+        </h1>
+        <p class="capa-subheadline">Laminados e Vinílicos de alta performance</p>
+      </div>
+      <div class="capa-imagem-wrapper">
+        <div class="capa-imagem-placeholder">
+          <span class="icon">🏠</span>
+          <span>Inserir foto de projeto aqui<br>(JPG, mínimo 300dpi)</span>
+        </div>
+        <div class="capa-degrade"></div>
+      </div>
+    </div>
+
+  </div><!-- /#sheet-frente -->
+
+
+  <!-- ════════════════════════════════════════════════════════
+       FOLHA 2 — VERSO
+       (ao dobrar: interna 1 à esquerda, interna 2 à direita)
+       ════════════════════════════════════════════════════════ -->
+  <div class="sheet-label">VERSO — Interna 1 (esquerda) | Interna 2 (direita)</div>
+
+  <div class="sheet" id="sheet-verso">
+
+    <!-- INTERNA 1 — Sobre a empresa + Diferenciais -->
+    <div class="panel interna1">
+      <div class="interna1-header">
+        <h2>Quem somos</h2>
+        <p>Real Pisos — Sua solução em pisos</p>
+      </div>
+      <div class="interna1-gold-line"></div>
+
+      <div class="interna1-body">
+        <p class="interna1-intro">
+          A <strong>Real Pisos</strong> é especializada na venda e instalação de pisos
+          laminados e vinílicos. Trabalhamos com as melhores marcas do mercado,
+          oferecendo soluções completas para ambientes residenciais e comerciais.
+        </p>
+
+        <div>
+          <p class="section-label">Por que escolher a Real Pisos?</p>
+          <ul class="diferenciais-list">
+            <li><strong>Instalação profissional inclusa</strong> — equipe treinada e certificada</li>
+            <li><strong>Ampla variedade</strong> de modelos e acabamentos</li>
+            <li><strong>Alta durabilidade</strong> e resistência comprovadas</li>
+            <li><strong>Atendimento personalizado</strong> do projeto à entrega</li>
+            <li><strong>Orçamento rápido</strong> e sem compromisso</li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="section-label">Onde atuamos</p>
+          <p style="font-size:8.5pt;color:var(--gray);line-height:1.7">
+            Residências, apartamentos, escritórios, lojas e galpões comerciais.<br>
+            <!-- CONFIRMAR cidades/regiões -->
+            Atendemos toda a região de Belo Horizonte e Grande BH.
+          </p>
+        </div>
+
+        <div class="cta-box">
+          <p>Solicite seu orçamento agora:</p>
+          <span class="cta-phone">(31) 9 9469-9586</span>
+          <span class="cta-sub">WhatsApp · Resposta em até 2h</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTERNA 2 — Produtos -->
+    <div class="panel interna2">
+      <div class="interna2-header">
+        <h2>Nossos Produtos</h2>
+        <p>Qualidade em cada detalhe</p>
+      </div>
+      <div class="interna2-black-line"></div>
+
+      <div class="interna2-body">
+
+        <div class="produto-card">
+          <h3>Piso Laminado</h3>
+          <p>
+            Acabamento que imita madeira natural com alta resistência a arranhões
+            e impacto. Indicado para salas, quartos e escritórios.
+          </p>
+          <div class="produto-tags">
+            <span class="tag">6mm a 12mm</span>
+            <span class="tag">Fácil instalação</span>
+            <span class="tag">Alta resistência</span>
+          </div>
+          <div class="img-placeholder">📸 Foto do produto</div>
+        </div>
+
+        <div class="produto-card">
+          <h3>Piso Vinílico (LVT / SPC)</h3>
+          <p>
+            100% impermeável — ideal para cozinhas e banheiros. Confortável ao
+            toque, reduz ruído e suporta alto tráfego.
+          </p>
+          <div class="produto-tags">
+            <span class="tag">2mm a 6mm</span>
+            <span class="tag">Impermeável</span>
+            <span class="tag">Click ou colado</span>
+          </div>
+          <div class="img-placeholder">📸 Foto do produto</div>
+        </div>
+
+        <div class="produto-card">
+          <h3>Rodapés e Complementos</h3>
+          <p>
+            Rodapés de MDF, PVC e poliestireno. Perfis de acabamento e transição
+            para um resultado impecável.
+          </p>
+          <div class="produto-tags">
+            <span class="tag">MDF</span>
+            <span class="tag">PVC</span>
+            <span class="tag">Perfis de transição</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /#sheet-verso -->
+
+</body>
+</html>

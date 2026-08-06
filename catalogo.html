@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogo — Real Pisos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black:      #1A1A1A;
+      --gold:       #B8962E;
+      --gold-light: #D4AF55;
+      --gold-dark:  #8C6E1A;
+      --white:      #FAFAFA;
+      --off-white:  #F4F1EB;
+      --gray:       #5C5550;
+      --gray-lt:    #9A9080;
+      --font-title: 'Cormorant Garamond', Georgia, serif;
+      --font-body:  'Montserrat', Arial, sans-serif;
+      --gold-gradient: linear-gradient(135deg, #B8962E 0%, #D4AF55 50%, #8C6E1A 100%);
+      --dark-gradient: linear-gradient(180deg, #1A1A1A 0%, #2A2520 100%);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #2a2a2a;
+      font-family: var(--font-body);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* ── TOOLBAR ──────────────────────────────────────────────── */
+    .toolbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: #111;
+      border-bottom: 2px solid var(--gold);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .toolbar a {
+      color: var(--gold-light);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      font-family: var(--font-body);
+    }
+    .toolbar a:hover { color: var(--white); }
+    .toolbar-title {
+      color: var(--white);
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      flex: 1;
+      text-align: center;
+    }
+    .btn-print {
+      background: var(--gold-gradient);
+      color: var(--black);
+      border: none;
+      padding: 8px 22px;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    .btn-print:hover { filter: brightness(1.1); }
+
+    .page-label {
+      color: #888;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 76px;
+      margin-bottom: 6px;
+    }
+    .page-label:not(:first-of-type) { margin-top: 32px; }
+
+    /* ── PÁGINA A4 ────────────────────────────────────────────── */
+    .page {
+      width: 794px;
+      min-height: 1123px;
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── ELEMENTOS COMPARTILHADOS ─────────────────────────────── */
+    .gold-line { height: 3px; background: var(--gold-gradient); flex-shrink: 0; }
+    .black-line { height: 3px; background: var(--black); flex-shrink: 0; }
+
+    .page-header {
+      background: var(--black);
+      padding: 16px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .page-header img { width: 60px; background: var(--white); padding: 4px; border-radius: 2px; }
+    .page-header-right { text-align: right; }
+    .page-header-right p { font-size: 7pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-light); }
+
+    .page-footer {
+      background: var(--black);
+      padding: 10px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      flex-shrink: 0;
+    }
+    .page-footer span { font-size: 6.5pt; letter-spacing: 0.06em; color: var(--gray-lt); }
+    .page-footer .page-num { color: var(--gold-light); font-weight: 600; }
+
+    .section-label {
+      font-size: 6.5pt;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      font-weight: 700;
+      padding-bottom: 6px;
+      border-bottom: 1.5px solid var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .img-ph {
+      width: 100%;
+      background: linear-gradient(135deg, #e8e4dc 0%, #cdc8be 100%);
+      border-radius: 3px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: #9A9080;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .img-ph .ph-icon { font-size: 1.8rem; opacity: 0.5; }
+
+    /* ════════════════════════
+       PÁG 1 — CAPA
+       ════════════════════════ */
+    .capa-page {
+      background: var(--black);
+      justify-content: flex-end;
+    }
+
+    .capa-foto {
+      flex: 1;
+      background: linear-gradient(180deg, #2a2520 0%, #1A1A1A 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      color: rgba(255,255,255,0.12);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      position: relative;
+    }
+    .capa-foto .ph-big { font-size: 3rem; opacity: 0.2; }
+
+    .capa-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 60%;
+      background: linear-gradient(0deg, rgba(26,26,26,0.97) 0%, transparent 100%);
+    }
+
+    .capa-content {
+      position: absolute;
+      bottom: 48px;
+      left: 48px;
+      right: 48px;
+    }
+
+    .capa-logo {
+      width: 100px;
+      background: var(--white);
+      padding: 8px;
+      border-radius: 2px;
+      margin-bottom: 28px;
+    }
+
+    .capa-title {
+      font-family: var(--font-title);
+      font-size: 42pt;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.05;
+      letter-spacing: 0.01em;
+    }
+    .capa-title em { color: var(--gold-light); font-style: italic; }
+
+    .capa-sub {
+      font-size: 8.5pt;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-top: 12px;
+    }
+
+    /* ════════════════════════
+       PÁG 2 — Apresentação
+       ════════════════════════ */
+    .pag2-body { padding: 40px 56px; display: flex; flex-direction: column; gap: 28px; flex: 1; }
+
+    .pag2-intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .pag2-text h2 {
+      font-family: var(--font-title);
+      font-size: 26pt;
+      color: var(--black);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    .pag2-text h2 em { color: var(--gold); font-style: italic; }
+    .pag2-text p {
+      font-size: 8.5pt;
+      color: var(--gray);
+      line-height: 1.8;
+    }
+
+    .pag2-foto { height: 220px; }
+
+    .valores-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+    .valor-card {
+      background: var(--off-white);
+      border-top: 3px solid var(--gold);
+      padding: 16px 14px;
+      border-radius: 2px;
+    }
+    .valor-card .v-icon { font-size: 1.4rem; margin-bottom: 8px; }
+    .valor-card h4 {
+      font-family: var(--font-title);
+      font-size: 12pt;
+      color: var(--black);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .valor-card p { font-size: 7.5pt; color: var(--gray); line-height: 1.6; }
+
+    /* ════════════════════════
+       PÁG 3 — Piso Laminado
+       PÁG 4 — Piso Vinílico
+       ════════════════════════ */
+    .produto-page-header {
+      height: 280px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .produto-page-header .ph-bg {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 8px;
+      color: rgba(255,255,255,0.15);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .produto-page-header .ph-bg .ph-icon { font-size: 2.5rem; opacity: 0.25; }
+    .produto-page-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 100%;
+      background: linear-gradient(0deg, rgba(26,26,26,0.85) 0%, transparent 60%);
+    }
+    .produto-page-title {
+      position: absolute;
+      bottom: 32px; left: 56px; right: 56px;
+    }
+    .produto-page-title h2 {
+      font-family: var(--font-title);
+      font-size: 30pt;
+      color: var(--white);
+      font-weight: 700;
+    }
+    .produto-page-title p {
+      font-size: 8pt;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-top: 4px;
+    }
+
+    .produto-body { padding: 32px 56px; display: flex; flex-direction: column; gap: 24px; flex: 1; }
+
+    .produto-desc { font-size: 9pt; color: var(--gray); line-height: 1.8; }
+    .produto-desc strong { color: var(--black); }
+
+    .specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .spec-item {
+      background: var(--off-white);
+      padding: 12px 14px;
+      border-radius: 2px;
+      border-left: 2px solid var(--gold);
+    }
+    .spec-item .spec-label { font-size: 6.5pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-dark); font-weight: 700; margin-bottom: 3px; }
+    .spec-item .spec-value { font-size: 9pt; color: var(--black); font-weight: 500; }
+
+    .uses-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .use-tag {
+      background: var(--black);
+      color: var(--gold-light);
+      font-size: 7pt;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 2px;
+      font-weight: 600;
+    }
+
+    .fotos-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+    .fotos-row .img-ph { height: 100px; }
+
+    /* ════════════════════════
+       PÁG 5 — Rodapés + Tabela
+       ════════════════════════ */
+    .pag5-body { padding: 36px 56px; display: flex; flex-direction: column; gap: 28px; flex: 1; }
+
+    .rodapes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+    .rodape-card {
+      background: var(--off-white);
+      padding: 16px;
+      border-radius: 3px;
+      text-align: center;
+    }
+    .rodape-card .r-icon { font-size: 1.8rem; margin-bottom: 8px; }
+    .rodape-card h4 { font-family: var(--font-title); font-size: 12pt; color: var(--black); margin-bottom: 4px; }
+    .rodape-card p { font-size: 7.5pt; color: var(--gray); line-height: 1.5; }
+
+    .tabela-precos {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .tabela-precos th {
+      background: var(--black);
+      color: var(--white);
+      font-size: 7pt;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+    }
+    .tabela-precos td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #e0dbd0;
+      font-size: 8.5pt;
+      color: var(--gray);
+    }
+    .tabela-precos tr:nth-child(even) td { background: var(--off-white); }
+    .tabela-precos td:last-child { font-weight: 600; color: var(--black); }
+
+    .tabela-obs {
+      font-size: 7pt;
+      color: var(--gray-lt);
+      font-style: italic;
+      padding-left: 4px;
+      border-left: 2px solid var(--gold);
+      padding-left: 8px;
+    }
+
+    /* ════════════════════════
+       PÁG 6 — Portfólio
+       ════════════════════════ */
+    .pag6-body { padding: 36px 56px; display: flex; flex-direction: column; gap: 24px; flex: 1; }
+
+    .portfolio-intro {
+      font-size: 9pt;
+      color: var(--gray);
+      line-height: 1.8;
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      flex: 1;
+    }
+    .portfolio-item { position: relative; border-radius: 3px; overflow: hidden; }
+    .portfolio-item .img-ph { height: 160px; border-radius: 3px; }
+    .portfolio-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(0deg, rgba(26,26,26,0.9) 0%, transparent 100%);
+      padding: 10px 12px;
+    }
+    .portfolio-caption p {
+      font-size: 7.5pt;
+      color: var(--white);
+      font-weight: 500;
+    }
+    .portfolio-caption span {
+      font-size: 6.5pt;
+      color: var(--gold-light);
+      letter-spacing: 0.08em;
+    }
+
+    .depoimento-box {
+      background: var(--off-white);
+      border-left: 3px solid var(--gold);
+      padding: 16px 20px;
+      border-radius: 0 3px 3px 0;
+    }
+    .depoimento-box blockquote {
+      font-family: var(--font-title);
+      font-size: 11pt;
+      font-style: italic;
+      color: var(--black);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+    .depoimento-box cite { font-size: 7.5pt; color: var(--gray-lt); letter-spacing: 0.06em; }
+
+    /* ════════════════════════
+       PÁG 7 — Como funciona + CTA
+       ════════════════════════ */
+    .pag7-body { padding: 36px 56px; display: flex; flex-direction: column; gap: 28px; flex: 1; }
+
+    .etapas-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .etapa {
+      display: flex;
+      gap: 20px;
+      padding: 16px 0;
+      border-bottom: 1px solid #e0dbd0;
+    }
+    .etapa:last-child { border-bottom: none; }
+    .etapa-num {
+      width: 36px;
+      height: 36px;
+      background: var(--gold-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-title);
+      font-size: 14pt;
+      font-weight: 700;
+      color: var(--black);
+      flex-shrink: 0;
+    }
+    .etapa-content h4 {
+      font-family: var(--font-title);
+      font-size: 13pt;
+      color: var(--black);
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+    .etapa-content p { font-size: 8pt; color: var(--gray); line-height: 1.6; }
+
+    .cta-page-box {
+      background: var(--black);
+      padding: 32px 36px;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .cta-page-box h3 {
+      font-family: var(--font-title);
+      font-size: 22pt;
+      color: var(--white);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .cta-page-box p { font-size: 8.5pt; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
+    .cta-page-box .cta-wpp {
+      font-family: var(--font-title);
+      font-size: 22pt;
+      color: var(--gold-light);
+      font-weight: 700;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .cta-page-box .cta-redes {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 16px;
+    }
+    .cta-page-box .cta-redes span {
+      font-size: 7.5pt;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.06em;
+    }
+
+    /* ════════════════════════
+       PÁG 8 — CONTRACAPA
+       ════════════════════════ */
+    .contracapa-page {
+      background: var(--black);
+      justify-content: center;
+      align-items: center;
+    }
+    .contracapa-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      text-align: center;
+      padding: 60px 80px;
+    }
+    .contracapa-inner img { width: 120px; background: var(--white); padding: 10px; border-radius: 3px; }
+    .contracapa-inner h2 {
+      font-family: var(--font-title);
+      font-size: 28pt;
+      color: var(--white);
+      font-weight: 700;
+    }
+    .contracapa-inner h2 em { color: var(--gold-light); font-style: italic; }
+    .contracapa-inner .sub {
+      font-size: 8pt;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+    }
+    .contracapa-contatos-fin {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 280px;
+      margin-top: 12px;
+    }
+    .fin-contact {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.05);
+      padding: 10px 16px;
+      border-radius: 3px;
+    }
+    .fin-contact span { font-size: 8.5pt; color: rgba(255,255,255,0.7); }
+    .fin-contact strong { color: var(--white); }
+    .monograma-watermark {
+      width: 200px;
+      opacity: 0.05;
+      position: absolute;
+    }
+
+    /* ── PRINT ────────────────────────────────────────────────── */
+    @media print {
+      body { background: white; padding: 0; }
+      .toolbar, .page-label { display: none !important; }
+      .page {
+        box-shadow: none;
+        width: 210mm;
+        min-height: 297mm;
+        height: 297mm;
+        page-break-after: always;
+        margin: 0;
+        overflow: hidden;
+      }
+    }
+    @page { size: A4; margin: 0; }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <a href="index.html">← Voltar ao Portal</a>
+    <span class="toolbar-title">Catálogo Real Pisos — 8 páginas</span>
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+  </div>
+
+  <!-- ════ PÁGINA 1 — CAPA ════ -->
+  <div class="page-label">Página 1 — Capa</div>
+  <div class="page capa-page">
+    <div class="capa-foto" style="flex:1;position:relative;">
+      <span class="ph-big">🏠</span>
+      <span style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;">Inserir foto de projeto (300dpi)</span>
+      <div class="capa-overlay"></div>
+      <div class="capa-content">
+        <img src="assets/logo.jpg" alt="Real Pisos" class="capa-logo" />
+        <h1 class="capa-title">Catálogo<br>de <em>Produtos</em></h1>
+        <p class="capa-sub">Laminados &amp; Vinílicos — Real Pisos</p>
+      </div>
+    </div>
+    <div class="gold-line"></div>
+  </div>
+
+  <!-- ════ PÁGINA 2 — APRESENTAÇÃO ════ -->
+  <div class="page-label">Página 2 — Apresentação da empresa</div>
+  <div class="page">
+    <div class="page-header">
+      <img src="assets/logo.jpg" alt="Real Pisos" />
+      <div class="page-header-right">
+        <p>Real Pisos — Catálogo de Produtos</p>
+      </div>
+    </div>
+    <div class="gold-line"></div>
+
+    <div class="pag2-body">
+      <div class="pag2-intro-grid">
+        <div class="pag2-text">
+          <h2>Sobre a<br><em>Real Pisos</em></h2>
+          <p>
+            Especializada na venda e instalação de pisos laminados e vinílicos,
+            a <strong>Real Pisos</strong> oferece soluções completas para ambientes
+            residenciais e comerciais.<br><br>
+            Trabalhamos com as melhores marcas do mercado, garantindo qualidade,
+            durabilidade e um acabamento impecável em cada projeto.
+          </p>
+        </div>
+        <div class="img-ph pag2-foto">
+          <span class="ph-icon">📸</span>
+          <span>Foto da equipe / loja</span>
+        </div>
+      </div>
+
+      <div>
+        <p class="section-label">Nossos valores</p>
+        <div class="valores-grid">
+          <div class="valor-card">
+            <div class="v-icon">🏆</div>
+            <h4>Qualidade</h4>
+            <p>Produtos selecionados das melhores marcas do mercado</p>
+          </div>
+          <div class="valor-card">
+            <div class="v-icon">🔧</div>
+            <h4>Instalação</h4>
+            <p>Equipe especializada com acabamento profissional</p>
+          </div>
+          <div class="valor-card">
+            <div class="v-icon">🤝</div>
+            <h4>Atendimento</h4>
+            <p>Acompanhamento personalizado do projeto à entrega</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="section-label">O que oferecemos</p>
+        <div class="specs-grid">
+          <div class="spec-item">
+            <div class="spec-label">Pisos Laminados</div>
+            <div class="spec-value">Modelos 6mm a 12mm</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Pisos Vinílicos</div>
+            <div class="spec-value">LVT e SPC, 2mm a 6mm</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Instalação</div>
+            <div class="spec-value">Inclusa em todos os projetos</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Orçamento</div>
+            <div class="spec-value">Rápido e sem compromisso</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gold-line"></div>
+    <div class="page-footer">
+      <span>Real Pisos — Laminados e Vinílicos</span>
+      <span class="page-num">02</span>
+    </div>
+  </div>
+
+  <!-- ════ PÁGINA 3 — PISO LAMINADO ════ -->
+  <div class="page-label">Página 3 — Piso Laminado</div>
+  <div class="page">
+    <div class="produto-page-header" style="background:var(--black);">
+      <div class="ph-bg">
+        <span class="ph-icon">🪵</span>
+        <span>Foto do piso laminado instalado (300dpi)</span>
+      </div>
+      <div class="produto-page-overlay"></div>
+      <div class="produto-page-title">
+        <h2>Piso Laminado</h2>
+        <p>Beleza da madeira natural com alta tecnologia</p>
+      </div>
+    </div>
+    <div class="gold-line"></div>
+
+    <div class="produto-body">
+      <p class="produto-desc">
+        O piso laminado combina <strong>estética sofisticada com praticidade</strong>.
+        Com acabamento que imita fielmente a madeira natural, é a escolha perfeita para
+        salas, quartos e escritórios que buscam elegância aliada à durabilidade.
+      </p>
+
+      <div>
+        <p class="section-label">Especificações técnicas</p>
+        <div class="specs-grid">
+          <div class="spec-item">
+            <div class="spec-label">Espessuras disponíveis</div>
+            <div class="spec-value">6mm · 7mm · 8mm · 10mm · 12mm</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Resistência</div>
+            <div class="spec-value">AC3 a AC5 (uso intenso)</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Instalação</div>
+            <div class="spec-value">Click (flutuante)</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Marcas</div>
+            <div class="spec-value"><!-- CONFIRMAR --> A confirmar</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="section-label">Ideal para</p>
+        <div class="uses-list">
+          <span class="use-tag">Sala de estar</span>
+          <span class="use-tag">Quartos</span>
+          <span class="use-tag">Escritórios</span>
+          <span class="use-tag">Corredor</span>
+          <span class="use-tag">Área comercial</span>
+        </div>
+      </div>
+
+      <div>
+        <p class="section-label">Exemplos de acabamento</p>
+        <div class="fotos-row">
+          <div class="img-ph"><span class="ph-icon">📸</span><span>Modelo 1</span></div>
+          <div class="img-ph"><span class="ph-icon">📸</span><span>Modelo 2</span></div>
+          <div class="img-ph"><span class="ph-icon">📸</span><span>Modelo 3</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gold-line"></div>
+    <div class="page-footer">
+      <span>Real Pisos — Laminados e Vinílicos</span>
+      <span class="page-num">03</span>
+    </div>
+  </div>
+
+  <!-- ════ PÁGINA 4 — PISO VINÍLICO ════ -->
+  <div class="page-label">Página 4 — Piso Vinílico</div>
+  <div class="page">
+    <div class="produto-page-header" style="background:var(--gold-dark);">
+      <div class="ph-bg">
+        <span class="ph-icon">🏊</span>
+        <span>Foto do piso vinílico instalado (300dpi)</span>
+      </div>
+      <div class="produto-page-overlay"></div>
+      <div class="produto-page-title">
+        <h2>Piso Vinílico</h2>
+        <p>LVT · SPC — 100% impermeável</p>
+      </div>
+    </div>
+    <div class="black-line"></div>
+
+    <div class="produto-body">
+      <p class="produto-desc">
+        O piso vinílico é a solução <strong>100% impermeável</strong> para cozinhas,
+        banheiros e áreas de alto tráfego. Com tecnologia LVT e SPC, une resistência
+        excepcional ao conforto ao toque e redução de ruído.
+      </p>
+
+      <div>
+        <p class="section-label">Especificações técnicas</p>
+        <div class="specs-grid">
+          <div class="spec-item">
+            <div class="spec-label">Espessuras disponíveis</div>
+            <div class="spec-value">2mm · 4mm · 5mm · 6mm</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Impermeabilidade</div>
+            <div class="spec-value">100% à prova d'água</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Instalação</div>
+            <div class="spec-value">Click ou colado</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Marcas</div>
+            <div class="spec-value"><!-- CONFIRMAR --> A confirmar</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="section-label">Ideal para</p>
+        <div class="uses-list">
+          <span class="use-tag">Cozinha</span>
+          <span class="use-tag">Banheiro</span>
+          <span class="use-tag">Área de serviço</span>
+          <span class="use-tag">Lojas</span>
+          <span class="use-tag">Alto tráfego</span>
+          <span class="use-tag">Área externa coberta</span>
+        </div>
+      </div>
+
+      <div>
+        <p class="section-label">Exemplos de acabamento</p>
+        <div class="fotos-row">
+          <div class="img-ph"><span class="ph-icon">📸</span><span>Modelo 1</span></div>
+          <div class="img-ph"><span class="ph-icon">📸</span><span>Modelo 2</span></div>
+          <div class="img-ph"><span class="ph-icon">📸</span><span>Modelo 3</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gold-line"></div>
+    <div class="page-footer">
+      <span>Real Pisos — Laminados e Vinílicos</span>
+      <span class="page-num">04</span>
+    </div>
+  </div>
+
+  <!-- ════ PÁGINA 5 — RODAPÉS + TABELA DE PREÇOS ════ -->
+  <div class="page-label">Página 5 — Rodapés e Complementos + Tabela de Preços</div>
+  <div class="page">
+    <div class="page-header">
+      <img src="assets/logo.jpg" alt="Real Pisos" />
+      <div class="page-header-right"><p>Complementos &amp; Preços</p></div>
+    </div>
+    <div class="gold-line"></div>
+
+    <div class="pag5-body">
+      <div>
+        <p class="section-label">Rodapés e complementos</p>
+        <div class="rodapes-grid">
+          <div class="rodape-card">
+            <div class="r-icon">🪵</div>
+            <h4>Rodapé MDF</h4>
+            <p>Acabamento nobre, pintura laca. Diversas alturas disponíveis.</p>
+          </div>
+          <div class="rodape-card">
+            <div class="r-icon">🔩</div>
+            <h4>Rodapé PVC</h4>
+            <p>Resistente à umidade. Ideal para áreas com vinílico.</p>
+          </div>
+          <div class="rodape-card">
+            <div class="r-icon">✨</div>
+            <h4>Perfis de Acabamento</h4>
+            <p>Perfis de transição, redução e canto para um resultado perfeito.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <p class="section-label">Tabela de preços — referência</p>
+        <table class="tabela-precos">
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Espessura</th>
+              <th>Instalação</th>
+              <th>Preço / m²</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Piso Laminado</td>
+              <td>8mm</td>
+              <td>Inclusa</td>
+              <td><!-- CONFIRMAR --> R$ —</td>
+            </tr>
+            <tr>
+              <td>Piso Laminado</td>
+              <td>12mm</td>
+              <td>Inclusa</td>
+              <td>R$ —</td>
+            </tr>
+            <tr>
+              <td>Piso Vinílico LVT</td>
+              <td>4mm</td>
+              <td>Inclusa</td>
+              <td>R$ —</td>
+            </tr>
+            <tr>
+              <td>Piso Vinílico SPC</td>
+              <td>6mm</td>
+              <td>Inclusa</td>
+              <td>R$ —</td>
+            </tr>
+            <tr>
+              <td>Rodapé MDF</td>
+              <td>7cm</td>
+              <td>Inclusa</td>
+              <td>R$ —</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="tabela-obs" style="margin-top:8px;">
+          ⚠️ Preços sujeitos a alteração sem aviso prévio. Consulte disponibilidade de estoque.
+          Orçamento personalizado pelo WhatsApp: (31) 9 9469-9586.
+        </p>
+      </div>
+    </div>
+
+    <div class="gold-line"></div>
+    <div class="page-footer">
+      <span>Real Pisos — Laminados e Vinílicos</span>
+      <span class="page-num">05</span>
+    </div>
+  </div>
+
+  <!-- ════ PÁGINA 6 — PORTFÓLIO ════ -->
+  <div class="page-label">Página 6 — Portfólio de projetos</div>
+  <div class="page">
+    <div class="page-header">
+      <img src="assets/logo.jpg" alt="Real Pisos" />
+      <div class="page-header-right"><p>Nossos Projetos</p></div>
+    </div>
+    <div class="gold-line"></div>
+
+    <div class="pag6-body">
+      <p class="section-label">Portfólio de projetos realizados</p>
+      <p class="portfolio-intro">
+        <!-- CONFIRMAR número de projetos e regiões -->
+        A Real Pisos acumula dezenas de projetos realizados, atendendo clientes
+        em toda a Grande BH. Confira alguns dos nossos trabalhos:
+      </p>
+
+      <div class="portfolio-grid">
+        <div class="portfolio-item">
+          <div class="img-ph" style="height:160px;">
+            <span class="ph-icon">📸</span><span>Foto projeto 1</span>
+          </div>
+          <div class="portfolio-caption">
+            <p>Residência — Sala e Quartos</p>
+            <span>Piso Laminado 8mm</span>
+          </div>
+        </div>
+        <div class="portfolio-item">
+          <div class="img-ph" style="height:160px;">
+            <span class="ph-icon">📸</span><span>Foto projeto 2</span>
+          </div>
+          <div class="portfolio-caption">
+            <p>Apartamento — Área completa</p>
+            <span>Piso Vinílico SPC 5mm</span>
+          </div>
+        </div>
+        <div class="portfolio-item">
+          <div class="img-ph" style="height:160px;">
+            <span class="ph-icon">📸</span><span>Foto projeto 3</span>
+          </div>
+          <div class="portfolio-caption">
+            <p>Escritório Comercial</p>
+            <span>Laminado 12mm · Alto tráfego</span>
+          </div>
+        </div>
+        <div class="portfolio-item">
+          <div class="img-ph" style="height:160px;">
+            <span class="ph-icon">📸</span><span>Foto projeto 4</span>
+          </div>
+          <div class="portfolio-caption">
+            <p>Cozinha e Banheiro</p>
+            <span>Vinílico LVT 4mm · Impermeável</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="depoimento-box">
+        <blockquote>
+          <!-- CONFIRMAR depoimento real -->
+          "Ficamos muito satisfeitos com o resultado. Profissionais pontuais, caprichosos e o piso ficou lindo!"
+        </blockquote>
+        <cite>— Cliente, Belo Horizonte</cite>
+      </div>
+    </div>
+
+    <div class="gold-line"></div>
+    <div class="page-footer">
+      <span>Real Pisos — Laminados e Vinílicos</span>
+      <span class="page-num">06</span>
+    </div>
+  </div>
+
+  <!-- ════ PÁGINA 7 — COMO FUNCIONA + CTA ════ -->
+  <div class="page-label">Página 7 — Como funciona + CTA</div>
+  <div class="page">
+    <div class="page-header">
+      <img src="assets/logo.jpg" alt="Real Pisos" />
+      <div class="page-header-right"><p>Como funciona</p></div>
+    </div>
+    <div class="gold-line"></div>
+
+    <div class="pag7-body">
+      <div>
+        <p class="section-label">Nosso processo — simples e transparente</p>
+        <div class="etapas-list">
+          <div class="etapa">
+            <div class="etapa-num">1</div>
+            <div class="etapa-content">
+              <h4>Contato e orçamento</h4>
+              <p>Entre em contato pelo WhatsApp ou visite nossa loja. Passamos o orçamento em até 2 horas — sem compromisso.</p>
+            </div>
+          </div>
+          <div class="etapa">
+            <div class="etapa-num">2</div>
+            <div class="etapa-content">
+              <h4>Escolha do produto</h4>
+              <p>Apresentamos os modelos disponíveis e ajudamos a escolher o piso ideal para cada ambiente e orçamento.</p>
+            </div>
+          </div>
+          <div class="etapa">
+            <div class="etapa-num">3</div>
+            <div class="etapa-content">
+              <h4>Agendamento da instalação</h4>
+              <p>Definimos o melhor dia e horário. Nossa equipe chega no prazo e cuida de tudo com máximo cuidado.</p>
+            </div>
+          </div>
+          <div class="etapa">
+            <div class="etapa-num">4</div>
+            <div class="etapa-content">
+              <h4>Entrega com garantia</h4>
+              <p>Após a instalação, vistoriamos junto com você e garantimos um resultado perfeito.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-page-box">
+        <h3>Solicite seu orçamento agora</h3>
+        <p>Sem compromisso · Resposta em até 2 horas · Instalação inclusa</p>
+        <span class="cta-wpp">(31) 9 9469-9586</span>
+        <div class="cta-redes">
+          <span>📷 @realpisoslaminados</span>
+          <span>👤 @realpisoslaminados</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="gold-line"></div>
+    <div class="page-footer">
+      <span>Real Pisos — Laminados e Vinílicos</span>
+      <span class="page-num">07</span>
+    </div>
+  </div>
+
+  <!-- ════ PÁGINA 8 — CONTRACAPA ════ -->
+  <div class="page-label">Página 8 — Contracapa</div>
+  <div class="page contracapa-page">
+    <div class="gold-line"></div>
+    <div class="contracapa-inner" style="flex:1;justify-content:center;">
+      <img src="assets/logo.jpg" alt="Real Pisos" />
+      <div>
+        <h2>Real Pisos<br><em>Laminados e Vinílicos</em></h2>
+        <p class="sub" style="margin-top:8px;">Qualidade que se vê. Durabilidade que se sente.</p>
+      </div>
+      <div class="contracapa-contatos-fin">
+        <div class="fin-contact">
+          <span>📱 <strong>(31) 9 9469-9586</strong></span>
+        </div>
+        <div class="fin-contact">
+          <span>📷 <strong>@realpisoslaminados</strong></span>
+        </div>
+        <div class="fin-contact">
+          <span>📍 <strong><!-- CONFIRMAR -->Endereço a confirmar</strong></span>
+        </div>
+      </div>
+      <img src="assets/monograma.png" alt="" class="monograma-watermark" />
+    </div>
+    <div class="gold-line"></div>
+  </div>
+
+</body>
+</html>
