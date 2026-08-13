@@ -95,7 +95,7 @@
     .sheet {
       width: 794px;
       height: 1123px;
-      background: var(--white);
+      
       position: relative;
       overflow: hidden;
       box-shadow: 0 8px 40px rgba(0,0,0,0.5);
@@ -147,12 +147,9 @@
     }
 
     .capa-logo {
-      width: 110px;
-      background: var(--white);
-      padding: 8px;
-      border-radius: 2px;
+      width: 130px;
       display: block;
-      margin-bottom: 48px;
+      margin-bottom: 40px;
     }
 
     .capa-headline {
@@ -292,7 +289,7 @@
     .qr-placeholder {
       width: 56px;
       height: 56px;
-      background: var(--white);
+      
       border-radius: 4px;
       display: flex;
       align-items: center;
@@ -326,7 +323,7 @@
 
     /* INTERNA 1 — Sobre a empresa + Diferenciais */
     .interna1 {
-      background: var(--white);
+      
       padding: 0;
     }
 
@@ -457,7 +454,7 @@
     }
 
     .produto-card {
-      background: var(--white);
+      
       border-left: 3px solid var(--gold);
       padding: 14px 16px;
       border-radius: 0 4px 4px 0;
@@ -508,7 +505,7 @@
 
     /* ── PRINT ────────────────────────────────────────────────── */
     @media print {
-      body { background: white; padding: 0; }
+      body { background: white !important; padding: 0; }
       .toolbar, .sheet-label { display: none !important; }
       .sheet {
         box-shadow: none;
@@ -531,7 +528,7 @@
   <div class="toolbar">
     <a href="index.html">← Voltar ao Portal</a>
     <span class="toolbar-title">Folder Real Pisos — Frente &amp; Verso</span>
-    <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+    <button class="btn-print" onclick="window.print()">Imprimir / Salvar PDF</button>
   </div>
 
   <!-- ════════════════════════════════════════════════════════
@@ -553,32 +550,27 @@
         <p class="section-label">Onde nos encontrar</p>
         <div class="contracapa-contatos">
           <div class="contato-item">
-            <span class="contato-icon">📱</span>
             <div class="contato-text">
               <strong>(31) 9 9469-9586</strong>
               WhatsApp · Ligue ou mande mensagem
             </div>
           </div>
           <div class="contato-item">
-            <span class="contato-icon">📷</span>
             <div class="contato-text">
               <strong>@realpisoslaminados</strong>
               Instagram · Veja nossos projetos
             </div>
           </div>
           <div class="contato-item">
-            <span class="contato-icon">👤</span>
             <div class="contato-text">
-              <strong>@realpisoslaminados</strong>
-              Facebook
+              <strong>(31) 9 9469-9586</strong>
+              Atendimento comercial
             </div>
           </div>
           <div class="contato-item">
-            <span class="contato-icon">📍</span>
             <div class="contato-text">
-              <strong>Endereço</strong>
-              <!-- CONFIRMAR com a cliente -->
-              A confirmar
+              <strong>Belo Horizonte e Região</strong>
+              Atendimento a domicílio
             </div>
           </div>
         </div>
@@ -604,7 +596,7 @@
     <div class="panel capa">
       <div class="capa-topo">
         <div class="capa-gold-line"></div>
-        <img src="assets/logo.jpg" alt="Real Pisos" class="capa-logo" />
+        <img src="assets/logo-transparent-light.png" alt="Real Pisos" class="capa-logo" />
         <h1 class="capa-headline">
           Pisos que<br>
           <em>transformam</em><br>
@@ -613,10 +605,7 @@
         <p class="capa-subheadline">Laminados e Vinílicos de alta performance</p>
       </div>
       <div class="capa-imagem-wrapper">
-        <div class="capa-imagem-placeholder">
-          <span class="icon">🏠</span>
-          <span>Inserir foto de projeto aqui<br>(JPG, mínimo 300dpi)</span>
-        </div>
+        <img src="assets/piso_sala.png" alt="Piso Real Pisos" style="width:100%; height:100%; object-fit:cover;" />
         <div class="capa-degrade"></div>
       </div>
     </div>
@@ -696,7 +685,9 @@
             <span class="tag">Fácil instalação</span>
             <span class="tag">Alta resistência</span>
           </div>
-          <div class="img-placeholder">📸 Foto do produto</div>
+          <div class="img-placeholder" style="height:120px; padding:0; overflow:hidden; border:none; background:none;">
+            <img src="assets/piso_detalhe.png" style="width:100%; height:100%; object-fit:cover; display:block;" alt="Laminado">
+          </div>
         </div>
 
         <div class="produto-card">
@@ -710,7 +701,9 @@
             <span class="tag">Impermeável</span>
             <span class="tag">Click ou colado</span>
           </div>
-          <div class="img-placeholder">📸 Foto do produto</div>
+          <div class="img-placeholder" style="height:120px; padding:0; overflow:hidden; border:none; background:none;">
+            <img src="assets/piso_quarto.png" style="width:100%; height:100%; object-fit:cover; display:block;" alt="Vinílico">
+          </div>
         </div>
 
         <div class="produto-card">

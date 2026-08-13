@@ -74,7 +74,7 @@
     .page {
       width: 559px;
       height: 794px;
-      background: var(--white);
+      
       position: relative;
       overflow: hidden;
       box-shadow: 0 8px 40px rgba(0,0,0,0.5);
@@ -106,10 +106,8 @@
     }
 
     .capa-inner img.logo {
-      width: 90px;
-      background: var(--white);
-      padding: 8px;
-      border-radius: 2px;
+      width: 140px;
+      margin-bottom: 24px;
     }
 
     .capa-divider {
@@ -196,7 +194,7 @@
       align-items: center;
       gap: 12px;
       padding: 10px 14px;
-      background: var(--white);
+      
       border-radius: 3px;
       border-left: 2.5px solid var(--gold);
     }
@@ -225,7 +223,7 @@
 
     /* ── PRINT ────────────────────────────────────────────────── */
     @media print {
-      body { background: white; }
+      body { background: white !important; }
       .toolbar, .page-label { display: none !important; }
       .page {
         box-shadow: none;
@@ -244,7 +242,7 @@
   <div class="toolbar">
     <a href="index.html">← Voltar ao Portal</a>
     <span class="toolbar-title">Bloco de Anotações — Real Pisos (A5)</span>
-    <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+    <button class="btn-print" onclick="window.print()">Imprimir / Salvar PDF</button>
   </div>
 
   <!-- CAPA -->
@@ -252,7 +250,7 @@
   <div class="page capa">
     <div class="capa-top-bar"></div>
     <div class="capa-inner">
-      <img class="logo" src="assets/logo.jpg" alt="Real Pisos" />
+      <img class="logo" src="assets/logo-transparent-light.png" alt="Real Pisos" />
       <div class="capa-divider"></div>
       <h1 class="capa-nome">Real Pisos</h1>
       <p class="capa-slogan">Laminados &amp; Vinílicos</p>
@@ -260,8 +258,8 @@
     </div>
     <div class="capa-bottom">
       <div class="capa-contact">
-        <span>📱 (31) 9 9469-9586</span>
-        <span>📷 @realpisoslaminados</span>
+        <span>(31) 9 9469-9586</span>
+        <span>@realpisoslaminados</span>
       </div>
     </div>
     <div class="gold-line"></div>
@@ -278,33 +276,24 @@
     <div class="contracapa-body">
       <div class="contato-block">
         <div class="contato-item">
-          <span class="ci-icon">📱</span>
           <div class="ci-text">
             <strong>(31) 9 9469-9586</strong>
-            WhatsApp · Ligue ou mande mensagem
+            WhatsApp
           </div>
         </div>
         <div class="contato-item">
-          <span class="ci-icon">📷</span>
           <div class="ci-text">
             <strong>@realpisoslaminados</strong>
-            Instagram — veja nossos projetos
+            Instagram — projetos realizados
           </div>
         </div>
         <div class="contato-item">
-          <span class="ci-icon">👤</span>
           <div class="ci-text">
-            <strong>@realpisoslaminados</strong>
-            Facebook
+            <strong>(31) 9 9469-9586</strong>
+            Atendimento comercial
           </div>
         </div>
-        <div class="contato-item">
-          <span class="ci-icon">📍</span>
-          <div class="ci-text">
-            <strong><!-- CONFIRMAR -->Endereço a confirmar</strong>
-            Visite nossa loja
-          </div>
-        </div>
+      </div>
       </div>
 
       <div class="contracapa-monograma">

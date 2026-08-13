@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Real Experience Collection — Real Pisos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      gap: 12px;
+    }
+    .page-label {
+      color: #666;
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-top: 32px;
+    }
+    .page[data-format="cartao"] {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 378px;
+      height: 567px;
+      overflow: hidden;
+      box-shadow: 0 12px 60px rgba(0,0,0,0.7);
+      background: #0D0D0D;
+    }
+
+    /* ── Filete interno SVG ─────────────────────────────────── */
+    .filete {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /* ── FRENTE ─────────────────────────────────────────────── */
+    .frente {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 36px;
+      height: 100%;
+      position: relative;
+    }
+    .frente .logo-wrap {
+      width: 130px;
+      margin-bottom: 28px;
+    }
+    .frente .logo-wrap img {
+      width: 100%;
+      display: block;
+    }
+    .frente .title-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .frente h1 {
+      font-family: var(--font-title);
+      font-size: 28pt;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 4px;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    .frente .subtitle {
+      font-family: var(--font-body);
+      font-size: 7pt;
+      font-weight: 300;
+      letter-spacing: 6px;
+      color: rgba(255,255,255,0.35);
+      text-transform: uppercase;
+      margin-top: 12px;
+    }
+
+    /* ── VERSO ──────────────────────────────────────────────── */
+    .verso {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 44px 36px 32px;
+      height: 100%;
+      position: relative;
+    }
+    .verso-top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .linha-ouro {
+      width: 44px;
+      height: 0.8px;
+      background: var(--gold-gradient);
+    }
+    .verso h2 {
+      font-family: var(--font-title);
+      font-size: 15pt;
+      font-style: italic;
+      color: var(--gold);
+      text-align: center;
+      letter-spacing: 0.5px;
+      line-height: 1.4;
+    }
+    .verso .mensagem {
+      font-family: var(--font-body);
+      font-size: 7.5pt;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      font-weight: 300;
+      max-width: 270px;
+    }
+    .verso .mensagem strong {
+      color: rgba(255,255,255,0.75);
+      font-weight: 400;
+    }
+    .verso .contact-bar {
+      border-top: 0.6px solid rgba(197,150,58,0.3);
+      padding-top: 18px;
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 6.5pt;
+      letter-spacing: 2px;
+      color: var(--gold-muted);
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <a href="index.html" class="back-link">← Voltar</a>
+    <span class="toolbar-title">Real Experience Collection — 100 × 150 mm</span>
+    <button class="btn-print" onclick="window.print()">Imprimir / PDF</button>
+  </div>
+
+  <div class="page-wrapper">
+    <div class="preview-panel">
+
+      <div class="page-label">Frente</div>
+      <div class="page" data-format="cartao">
+        <div class="frente">
+          <svg class="filete" viewBox="0 0 378 567" xmlns="http://www.w3.org/2000/svg">
+            <rect x="18" y="18" width="342" height="531" fill="none" stroke="#C5963A" stroke-width="0.6" opacity="0.65"/>
+          </svg>
+
+          <div class="logo-wrap">
+            <img src="assets/crown-light.png" alt="Real Pisos">
+          </div>
+          <div class="title-block">
+            <h1>Real<br>Experience</h1>
+            <div class="subtitle">Collection</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-label">Verso</div>
+      <div class="page" data-format="cartao">
+        <div class="verso">
+          <svg class="filete" viewBox="0 0 378 567" xmlns="http://www.w3.org/2000/svg">
+            <rect x="18" y="18" width="342" height="531" fill="none" stroke="#C5963A" stroke-width="0.6" opacity="0.65"/>
+          </svg>
+
+          <div class="verso-top">
+            <div class="linha-ouro"></div>
+            <h2>Bem-vindo à<br>Experiência Real</h2>
+            <div class="linha-ouro"></div>
+            <p class="mensagem">
+              Você acaba de adquirir um produto da nossa
+              linha <strong>Real Experience Collection</strong> — criada
+              para clientes exigentes que buscam o máximo
+              em design, conforto e exclusividade.
+            </p>
+          </div>
+
+          <div class="contact-bar">
+            (31) 9 9469-9586 &nbsp;|&nbsp; @realpisoslaminados
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

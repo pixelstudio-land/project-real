@@ -59,7 +59,7 @@
   <!-- ── SIDEBAR ─────────────────────────────────── -->
   <aside class="sidebar">
     <a href="index.html" class="back-link">← Voltar ao Portal</a>
-    <img src="assets/logo.jpg" alt="Real Pisos" class="sidebar-logo" />
+    <img src="assets/logo-transparent-light.png" alt="Real Pisos" class="sidebar-logo" />
     <div>
       <p class="sidebar-title">Papel<br>Timbrado</p>
       <p class="sidebar-subtitle">Real Pisos — Laminados e Vinílicos</p>
@@ -72,10 +72,10 @@
       <button onclick="execCmd('italic')" title="Itálico"><i>I</i></button>
       <button onclick="execCmd('underline')" title="Sublinhado"><u>S</u></button>
       <div class="toolbar-sep"></div>
-      <button onclick="execCmd('justifyLeft')" title="Esquerda">⬅</button>
-      <button onclick="execCmd('justifyCenter')" title="Centro">⬛</button>
-      <button onclick="execCmd('justifyRight')" title="Direita">➡</button>
-      <button onclick="execCmd('justifyFull')" title="Justificado">☰</button>
+      <button onclick="execCmd('justifyLeft')" title="Esquerda">Esq</button>
+      <button onclick="execCmd('justifyCenter')" title="Centro">Centro</button>
+      <button onclick="execCmd('justifyRight')" title="Direita">Dir</button>
+      <button onclick="execCmd('justifyFull')" title="Justificado">Just</button>
       <div class="toolbar-sep"></div>
       <button onclick="execCmd('insertUnorderedList')" title="Lista">• Lista</button>
       <div class="toolbar-sep"></div>
@@ -91,12 +91,12 @@
 
     <hr />
     <p class="sidebar-section-title">Inserir Elementos</p>
-    <button class="btn btn-outline" style="font-size:0.78rem; padding:8px 16px" onclick="insertDate()">📅 Inserir Data Atual</button>
-    <button class="btn btn-outline" style="font-size:0.78rem; padding:8px 16px" onclick="insertSignBlock()">✍️ Inserir Bloco de Assinatura</button>
+    <button class="btn btn-outline" style="font-size:0.78rem; padding:8px 16px" onclick="insertDate()">Inserir Data Atual</button>
+    <button class="btn btn-outline" style="font-size:0.78rem; padding:8px 16px" onclick="insertSignBlock()">Inserir Bloco de Assinatura</button>
 
     <hr />
-    <button class="btn btn-gold" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
-    <button class="btn btn-dark" onclick="clearDoc()">🗑️ Limpar Documento</button>
+    <button class="btn btn-gold" onclick="window.print()">Imprimir / Salvar PDF</button>
+    <button class="btn btn-dark" onclick="clearDoc()">Limpar Documento</button>
   </aside>
 
   <!-- ── PREVIEW / EDITOR ─────────────────────────── -->
@@ -106,7 +106,7 @@
     <div id="doc-timbrado">
       <!-- Cabeçalho fixo -->
       <div class="timbrado-header">
-        <img src="assets/logo.jpg" alt="Real Pisos" />
+        <img src="assets/crown-gold.png" alt="Real Pisos" />
         <div class="timbrado-header-text">
           <h1>REAL PISOS</h1>
           <p>Laminados e Vinílicos</p>
@@ -124,9 +124,8 @@
       <!-- Rodapé fixo -->
       <div class="timbrado-footer">
         <div class="timbrado-footer-inner">
-          <span>📱 (31) 9 9469-9586</span>
-          <span>📷 @realpisoslaminados</span>
-          <span>👤 @realpisoslaminados</span>
+          <span>(31) 9 9469-9586</span>
+          <span>@realpisoslaminados</span>
         </div>
       </div>
     </div><!-- /#doc-timbrado -->

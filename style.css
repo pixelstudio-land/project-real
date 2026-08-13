@@ -1,14 +1,22 @@
 /* ============================================================
-   REAL PISOS — DESIGN SYSTEM
-   Paleta: Preto #1A1A1A | Dourado #B8962E | Branco #FAFAFA
+   REAL PISOS — DESIGN SYSTEM v2
+   Paleta: Preto Profundo #0D0D0D | Dourado #C5963A | Off-White #F4F1EB
+   Acabamento gráfico: Laminação fosca total + verniz UV localizado nos dourados
    Fontes: Cormorant Garamond (títulos) + Montserrat (corpo)
    ============================================================ */
 
 :root {
-  --black:      #1A1A1A;
-  --gold:       #B8962E;
-  --gold-light: #D4AF55;
+  /* ── Preto profundo (fundo + bleed area) */
+  --black:      #0D0D0D;
+  --black-soft: #1A1A1A;
+
+  /* ── Dourado rico (verniz UV localizado na gráfica) */
+  --gold:       #C5963A;
+  --gold-light: #DDB96A;
   --gold-dark:  #8C6E1A;
+  --gold-muted: #A07828;
+
+  /* ── Neutros */
   --white:      #FAFAFA;
   --off-white:  #F4F1EB;
   --gray-100:   #F0EDE6;
@@ -16,9 +24,11 @@
   --gray-400:   #9A9080;
   --gray-600:   #5C5550;
 
+  /* ── Tipografia */
   --font-title: 'Cormorant Garamond', Georgia, serif;
   --font-body:  'Montserrat', Arial, sans-serif;
 
+  /* ── Sombras e raios */
   --radius-sm:  4px;
   --radius-md:  8px;
   --radius-lg:  16px;
@@ -26,9 +36,16 @@
   --shadow-md:  0 8px 32px rgba(0,0,0,0.14);
   --shadow-lg:  0 20px 60px rgba(0,0,0,0.20);
 
-  --gold-gradient: linear-gradient(135deg, #B8962E 0%, #D4AF55 50%, #8C6E1A 100%);
-  --dark-gradient: linear-gradient(180deg, #1A1A1A 0%, #2A2520 100%);
+  /* ── Gradientes */
+  --gold-gradient: linear-gradient(135deg, #C5963A 0%, #DDB96A 50%, #8C6E1A 100%);
+  --dark-gradient: linear-gradient(180deg, #0D0D0D 0%, #1A1A1A 100%);
+
+  /* ── Filete interno (0.5pt dourado nas capas pretas) */
+  --filete-offset: 7mm;   /* distância da borda de corte */
+  --filete-color:  #C5963A;
+  --filete-width:  0.6px;
 }
+
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -104,7 +121,7 @@ body {
   font-family: var(--font-body);
   font-size: 0.9rem;
   color: var(--black);
-  background: var(--white);
+  
   transition: border-color 0.2s;
   outline: none;
 }
@@ -134,9 +151,6 @@ body {
   width: 90px;
   height: 90px;
   object-fit: contain;
-  background: var(--white);
-  border-radius: var(--radius-sm);
-  padding: 8px;
 }
 .hub-header-text h1 {
   font-family: var(--font-title);
@@ -167,7 +181,7 @@ body {
 .hub-card {
   display: flex;
   flex-direction: column;
-  background: var(--white);
+  
   border: 1.5px solid var(--gray-200);
   border-radius: var(--radius-lg);
   padding: 36px 28px;
@@ -251,9 +265,6 @@ body {
 
 .sidebar-logo {
   width: 80px;
-  background: var(--white);
-  padding: 6px;
-  border-radius: var(--radius-sm);
 }
 
 .sidebar-title {
@@ -316,7 +327,7 @@ body {
 
 /* ── ORÇAMENTO DOCUMENT ────────────────────────────────────── */
 #doc-orcamento {
-  background: var(--white);
+  
   width: 794px; /* A4 @96dpi */
   min-height: 1123px;
   padding: 0;
@@ -338,9 +349,6 @@ body {
 .doc-header-bar .doc-logo {
   width: 100px;
   object-fit: contain;
-  background: var(--white);
-  padding: 6px;
-  border-radius: 2px;
 }
 .doc-header-bar .doc-header-right {
   text-align: right;
@@ -474,7 +482,7 @@ body {
 
 /* ── TIMBRADO DOCUMENT ─────────────────────────────────────── */
 #doc-timbrado {
-  background: var(--white);
+  
   width: 794px;
   min-height: 1123px;
   box-shadow: var(--shadow-lg);
@@ -493,7 +501,7 @@ body {
   align-items: center;
   gap: 20px;
 }
-.timbrado-header img { width: 70px; background: white; padding: 5px; border-radius: 2px; }
+.timbrado-header img { width: 80px; }
 .timbrado-header-text { color: var(--white); }
 .timbrado-header-text h1 {
   font-family: var(--font-title);
@@ -587,9 +595,6 @@ body {
 }
 .cracha-logo-area img {
   width: 55px;
-  background: white;
-  border-radius: 3px;
-  padding: 3px;
 }
 .cracha-divider { width: 60px; height: 1px; background: var(--gold); margin: 4px 0; opacity: 0.5; }
 
@@ -654,30 +659,135 @@ body {
   text-transform: uppercase;
 }
 
-/* ── PRINT STYLES ──────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════
+   PRINT STYLES — Visualização no browser (Ctrl+P)
+   As dimensões reais para gráfica (com sangria) são injetadas
+   pelo script generate-pdfs.js via Puppeteer.
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Cores e fundos sempre impressos com fidelidade ─────────── */
 @media print {
-  body { background: white; }
-  .sidebar, .preview-panel h2, .btn, .back-link { display: none !important; }
-  .page-wrapper { display: block; }
+  *,
+  *::before,
+  *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust:         exact !important;
+  }
+
+  /* Ocultar elementos de navegação e UI */
+  body {
+    background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .sidebar,
+  .back-link,
+  .preview-panel > h2,
+  .hub-header,
+  .hub-footer,
+  .btn,
+  .btn-print,
+  #btn-print,
+  #btn-add-item,
+  .print-hint,
+  .toolbar,
+  .sheet-label,
+  .page-label {
+    display: none !important;
+  }
+
+  /* Layout dos documentos */
+  .page-wrapper {
+    display: block !important;
+    width: 100% !important;
+  }
+
   .preview-panel {
-    padding: 0;
-    background: white;
-    display: block;
+    padding:    0     !important;
+    background: white !important;
+    display:    block !important;
+    width:      100%  !important;
+    overflow:   visible !important;
   }
-  #doc-orcamento, #doc-timbrado {
-    box-shadow: none;
-    width: 100%;
-    page-break-after: always;
+
+  /* ── Orçamento e Timbrado (A4) ─────────────────────────────── */
+  #doc-orcamento,
+  #doc-timbrado {
+    box-shadow:       none    !important;
+    width:            210mm   !important;
+    height:           297mm   !important;
+    overflow:         hidden  !important;
+    page-break-after: avoid   !important;
+    page-break-inside: avoid  !important;
+    margin:           0       !important;
   }
+
+  /* ── Crachá (54 × 86 mm) ──────────────────────────────────── */
   #cracha-card {
-    /* Tamanho real 54x86mm para impressão */
-    width: 54mm;
-    height: 86mm;
+    width:         54mm !important;
+    height:        86mm !important;
+    border-radius: 0    !important;
+    box-shadow:    none !important;
   }
-  .cracha-preview-area { page-break-after: always; }
+  .cracha-preview-area {
+    padding:         0           !important;
+    background: white !important;
+    display:         flex        !important;
+    justify-content: flex-start  !important;
+    align-items:     flex-start  !important;
+    page-break-after: always     !important;
+  }
+  .badge-scale {
+    transform: none !important;
+    margin:    0    !important;
+  }
+
+  /* ── Catálogo, Folder, Bloco, Panfleto, Portfólio ─────────── */
+  /* Cada .page ou .sheet ocupa exatamente uma página física     */
+  .page {
+    width:            210mm    !important;
+    height:           297mm    !important;
+    min-height:       297mm    !important;
+    box-shadow:       none     !important;
+    margin:           0        !important;
+    page-break-after: always   !important;
+    overflow:         hidden   !important;
+  }
+
+  /* Formato A5 para bloco e panfleto */
+  .page[data-format="a5"] {
+    width:      148mm !important;
+    height:     210mm !important;
+    min-height: 210mm !important;
+  }
+
+  /* Formato 100×150 para cartões */
+  .page[data-format="cartao"] {
+    width:      100mm !important;
+    height:     150mm !important;
+    min-height: 150mm !important;
+  }
+
+  .sheet {
+    width:            210mm    !important;
+    height:           297mm    !important;
+    min-height:       297mm    !important;
+    box-shadow:       none     !important;
+    margin:           0        !important;
+    page-break-after: always   !important;
+    overflow:         hidden   !important;
+    position:         relative !important;
+  }
 }
 
+/* ── @page fallback (preview no browser) ─────────────────────
+   O generate-pdfs.js sobrescreve com o tamanho exato + sangria.
+   ─────────────────────────────────────────────────────────── */
 @page {
   size: A4;
   margin: 0;
+  bleed: 3mm;
+  marks: crop;
 }
+

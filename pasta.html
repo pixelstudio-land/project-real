@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pasta de Documentos — Real Pisos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 80px 20px 40px;
+      gap: 12px;
+    }
+    .page-label {
+      color: #555;
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-top: 32px;
+    }
+
+    /* A4 = 794 × 1123px a 96dpi */
+    .sheet {
+      width: 794px;
+      height: 1123px;
+      background: #0D0D0D;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 16px 80px rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Filete interno ─────────────────────────────────────── */
+    .filete {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /* ── Conteúdo central ───────────────────────────────────── */
+    .capa-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      z-index: 1;
+      text-align: center;
+    }
+    .capa-logo {
+      width: 260px;
+      margin-bottom: 40px;
+    }
+    .gold-line-h {
+      width: 80px;
+      height: 1px;
+      background: var(--gold-gradient);
+      margin: 0 auto 32px;
+    }
+    .capa-title {
+      font-family: var(--font-title);
+      font-size: 32pt;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .capa-subtitle {
+      font-family: var(--font-body);
+      font-size: 7.5pt;
+      font-weight: 300;
+      letter-spacing: 5px;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+      margin-top: 16px;
+    }
+    .capa-contact {
+      position: absolute;
+      bottom: 40px;
+      left: 0; right: 0;
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 7pt;
+      letter-spacing: 2px;
+      color: rgba(197,150,58,0.5);
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <a href="index.html" class="back-link">← Voltar</a>
+    <span class="toolbar-title">Pasta de Documentos — A4</span>
+    <button class="btn-print" onclick="window.print()">Imprimir / PDF</button>
+  </div>
+
+  <div class="page-wrapper">
+    <div class="preview-panel">
+
+      <div class="page-label">Capa da Pasta — A4 com orelha</div>
+      <div class="sheet">
+        <!-- Filete interno dourado -->
+        <svg class="filete" viewBox="0 0 794 1123" xmlns="http://www.w3.org/2000/svg">
+          <rect x="26" y="26" width="742" height="1071" fill="none" stroke="#C5963A" stroke-width="0.7" opacity="0.6"/>
+        </svg>
+
+        <div class="capa-content">
+          <img src="assets/logo-gold.png" alt="Real Pisos — Laminados e Vinílicos" class="capa-logo">
+          <div class="gold-line-h"></div>
+          <div class="capa-title">
+            Documentos<br>e Projetos
+          </div>
+          <div class="capa-subtitle">Real Pisos — Laminados e Vinílicos</div>
+        </div>
+
+        <div class="capa-contact">
+          (31) 9 9469-9586 &nbsp;&nbsp;|&nbsp;&nbsp; @realpisoslaminados
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

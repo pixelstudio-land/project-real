@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cartão Cortesia — Real Pisos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      gap: 12px;
+    }
+    .page-label {
+      color: #666;
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-top: 32px;
+    }
+    .page[data-format="cartao"] {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      /* 100mm × 150mm a 96dpi ≈ 378 × 567px */
+      width: 378px;
+      height: 567px;
+      overflow: hidden;
+      box-shadow: 0 12px 60px rgba(0,0,0,0.7);
+    }
+
+    /* ── FRENTE ─────────────────────────────────────────────── */
+    .frente {
+      background: #0D0D0D;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 36px;
+      height: 100%;
+      position: relative;
+    }
+    .frente .logo-wrap {
+      width: 140px;
+      margin-bottom: 24px;
+    }
+    .frente .logo-wrap img {
+      width: 100%;
+      display: block;
+    }
+    .frente h1 {
+      font-family: var(--font-title);
+      font-size: 22pt;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .frente p {
+      font-size: 7.5pt;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      font-family: var(--font-body);
+      font-weight: 300;
+    }
+
+    /* ── Filete interno SVG ─────────────────────────────────── */
+    .filete {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /* ── VERSO ──────────────────────────────────────────────── */
+    .verso {
+      background: #0D0D0D;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 42px 36px 32px;
+      height: 100%;
+      position: relative;
+    }
+    .verso-top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+    .verso .linha-ouro {
+      width: 48px;
+      height: 1px;
+      background: var(--gold-gradient);
+    }
+    .verso h2 {
+      font-family: var(--font-title);
+      font-size: 17pt;
+      font-style: italic;
+      color: var(--gold);
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+    .verso .mensagem {
+      font-family: var(--font-body);
+      font-size: 8pt;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      font-weight: 300;
+      max-width: 260px;
+    }
+    .verso .contact-bar {
+      border-top: 0.6px solid rgba(197,150,58,0.35);
+      padding-top: 18px;
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 7pt;
+      letter-spacing: 1.5px;
+      color: var(--gold-muted);
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <a href="index.html" class="back-link">← Voltar</a>
+    <span class="toolbar-title">Cartão Cortesia — 100 × 150 mm</span>
+    <button class="btn-print" onclick="window.print()">Imprimir / PDF</button>
+  </div>
+
+  <div class="page-wrapper">
+    <div class="preview-panel">
+
+      <div class="page-label">Frente</div>
+      <div class="page" data-format="cartao">
+        <div class="frente">
+          <!-- Filete interno dourado -->
+          <svg class="filete" viewBox="0 0 378 567" xmlns="http://www.w3.org/2000/svg">
+            <rect x="18" y="18" width="342" height="531" fill="none" stroke="#C5963A" stroke-width="0.6" opacity="0.7"/>
+          </svg>
+
+          <div class="logo-wrap">
+            <img src="assets/crown-light.png" alt="Real Pisos — Laminados e Vinílicos">
+          </div>
+          <h1>Cortesia</h1>
+          <p>Um presente especial para você</p>
+        </div>
+      </div>
+
+      <div class="page-label">Verso</div>
+      <div class="page" data-format="cartao">
+        <div class="verso">
+          <!-- Filete interno dourado -->
+          <svg class="filete" viewBox="0 0 378 567" xmlns="http://www.w3.org/2000/svg">
+            <rect x="18" y="18" width="342" height="531" fill="none" stroke="#C5963A" stroke-width="0.6" opacity="0.7"/>
+          </svg>
+
+          <div class="verso-top">
+            <div class="linha-ouro"></div>
+            <h2>Obrigado por<br>nos escolher</h2>
+            <div class="linha-ouro"></div>
+            <p class="mensagem">
+              Agradecemos a confiança em nosso trabalho.
+              Apresente este cartão em sua próxima visita
+              ou indique um amigo para garantir condições
+              especiais exclusivas.
+            </p>
+          </div>
+
+          <div class="contact-bar">
+            (31) 9 9469-9586 &nbsp;|&nbsp; @realpisoslaminados
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

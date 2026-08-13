@@ -1,0 +1,26 @@
+{
+  "name": "real-pisos-pdf-generator",
+  "version": "1.0.0",
+  "description": "Gerador de PDFs para gráfica — Real Pisos",
+  "main": "generate-pdfs.js",
+  "scripts": {
+    "generate":              "node generate-pdfs.js",
+    "generate:orcamento":    "node generate-pdfs.js --file orcamento.html",
+    "generate:timbrado":     "node generate-pdfs.js --file timbrado.html",
+    "generate:cracha":       "node generate-pdfs.js --file cracha.html",
+    "generate:folder":       "node generate-pdfs.js --file folder.html",
+    "generate:catalogo":     "node generate-pdfs.js --file catalogo.html",
+    "generate:bloco":        "node generate-pdfs.js --file bloco.html",
+    "generate:panfleto":     "node generate-pdfs.js --file panfleto.html",
+    "generate:portfolio":    "node generate-pdfs.js --file portfolio.html",
+    "generate:pasta":        "node generate-pdfs.js --file pasta.html",
+    "generate:cortesia":     "node generate-pdfs.js --file cartao-cortesia.html",
+    "generate:experience":   "node generate-pdfs.js --file cartao-real-experience.html"
+  },
+  "dependencies": {
+    "puppeteer": "^22.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

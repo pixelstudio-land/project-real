@@ -30,10 +30,10 @@
 
     /* Print: imprimir apenas o crachá, no tamanho real */
     @media print {
-      body { background: white; }
+      body { background: white !important; }
       .sidebar, .preview-panel h2, .print-hint { display: none !important; }
       .page-wrapper { display: block; }
-      .preview-panel { padding: 0; background: white; display: flex; justify-content: center; align-items: flex-start; padding-top: 10mm; }
+      .preview-panel { padding: 0;  display: flex; justify-content: center; align-items: flex-start; padding-top: 10mm; }
       #cracha-card {
         width: 54mm;
         height: 86mm;
@@ -65,7 +65,7 @@
   <!-- ── SIDEBAR ─────────────────────────────────── -->
   <aside class="sidebar">
     <a href="index.html" class="back-link">← Voltar ao Portal</a>
-    <img src="assets/logo.jpg" alt="Real Pisos" class="sidebar-logo" />
+    <img src="assets/logo-gold.png" alt="Real Pisos" class="sidebar-logo" />
     <div>
       <p class="sidebar-title">Gerador<br>de Crachá</p>
       <p class="sidebar-subtitle">Real Pisos — Laminados e Vinílicos</p>
@@ -87,12 +87,12 @@
 
     <input type="file" id="file-input" accept="image/*" onchange="loadPhoto(event)" />
     <label for="file-input" class="photo-upload-btn">
-      📷 Clique para carregar foto
+      Carregar foto do funcionário
     </label>
-    <button class="btn btn-outline" style="font-size:0.78rem; padding:8px 16px" onclick="removePhoto()">✕ Remover Foto</button>
+    <button class="btn btn-outline" style="font-size:0.78rem; padding:8px 16px" onclick="removePhoto()">Remover Foto</button>
 
     <hr />
-    <button class="btn btn-gold" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+    <button class="btn btn-gold" onclick="window.print()">Imprimir / Salvar PDF</button>
   </aside>
 
   <!-- ── PREVIEW ─────────────────────────────────── -->
@@ -105,13 +105,13 @@
           <div class="cracha-top-bar"></div>
 
           <div class="cracha-logo-area">
-            <img src="assets/logo.jpg" alt="Real Pisos" />
+            <img src="assets/logo-gold.png" alt="Real Pisos" />
           </div>
 
           <div class="cracha-divider"></div>
 
           <div class="cracha-photo-wrapper" id="photo-wrapper">
-            <span class="cracha-photo-placeholder" id="photo-placeholder">👤</span>
+            <span class="cracha-photo-placeholder" id="photo-placeholder"></span>
             <img id="cracha-photo" src="" alt="Foto" style="display:none; width:100%; height:100%; object-fit:cover; border-radius:50%;" />
           </div>
 

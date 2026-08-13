@@ -91,7 +91,7 @@
     .page {
       width: 794px;
       min-height: 1123px;
-      background: var(--white);
+      
       position: relative;
       overflow: hidden;
       box-shadow: 0 8px 40px rgba(0,0,0,0.5);
@@ -111,7 +111,7 @@
       justify-content: space-between;
       flex-shrink: 0;
     }
-    .page-header img { width: 60px; background: var(--white); padding: 4px; border-radius: 2px; }
+    .page-header img { width: 60px; }
     .page-header-right { text-align: right; }
     .page-header-right p { font-size: 7pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-light); }
 
@@ -193,10 +193,7 @@
     }
 
     .capa-logo {
-      width: 100px;
-      background: var(--white);
-      padding: 8px;
-      border-radius: 2px;
+      width: 120px;
       margin-bottom: 28px;
     }
 
@@ -551,7 +548,7 @@
       text-align: center;
       padding: 60px 80px;
     }
-    .contracapa-inner img { width: 120px; background: var(--white); padding: 10px; border-radius: 3px; }
+    .contracapa-inner img { width: 160px; }
     .contracapa-inner h2 {
       font-family: var(--font-title);
       font-size: 28pt;
@@ -591,7 +588,7 @@
 
     /* ── PRINT ────────────────────────────────────────────────── */
     @media print {
-      body { background: white; padding: 0; }
+      body { background: white !important; padding: 0; }
       .toolbar, .page-label { display: none !important; }
       .page {
         box-shadow: none;
@@ -611,18 +608,17 @@
   <div class="toolbar">
     <a href="index.html">← Voltar ao Portal</a>
     <span class="toolbar-title">Catálogo Real Pisos — 8 páginas</span>
-    <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+    <button class="btn-print" onclick="window.print()">Imprimir / Salvar PDF</button>
   </div>
 
   <!-- ════ PÁGINA 1 — CAPA ════ -->
   <div class="page-label">Página 1 — Capa</div>
   <div class="page capa-page">
-    <div class="capa-foto" style="flex:1;position:relative;">
-      <span class="ph-big">🏠</span>
-      <span style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;">Inserir foto de projeto (300dpi)</span>
+    <div class="capa-foto" style="flex:1;position:relative;background:none;">
+      <img src="assets/piso_sala.png" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;" alt="Projeto">
       <div class="capa-overlay"></div>
       <div class="capa-content">
-        <img src="assets/logo.jpg" alt="Real Pisos" class="capa-logo" />
+        <img src="assets/logo-transparent-light.png" alt="Real Pisos" class="capa-logo" />
         <h1 class="capa-title">Catálogo<br>de <em>Produtos</em></h1>
         <p class="capa-sub">Laminados &amp; Vinílicos — Real Pisos</p>
       </div>
@@ -634,7 +630,7 @@
   <div class="page-label">Página 2 — Apresentação da empresa</div>
   <div class="page">
     <div class="page-header">
-      <img src="assets/logo.jpg" alt="Real Pisos" />
+      <img src="assets/logo-transparent-light.png" alt="Real Pisos" />
       <div class="page-header-right">
         <p>Real Pisos — Catálogo de Produtos</p>
       </div>
@@ -653,9 +649,8 @@
             durabilidade e um acabamento impecável em cada projeto.
           </p>
         </div>
-        <div class="img-ph pag2-foto">
-          <span class="ph-icon">📸</span>
-          <span>Foto da equipe / loja</span>
+        <div class="img-ph pag2-foto" style="padding:0; overflow:hidden; background:none; border:none;">
+          <img src="assets/piso_loja.png" style="width:100%; height:100%; object-fit:cover; display:block;" alt="Equipe Loja">
         </div>
       </div>
 
@@ -714,9 +709,8 @@
   <div class="page-label">Página 3 — Piso Laminado</div>
   <div class="page">
     <div class="produto-page-header" style="background:var(--black);">
-      <div class="ph-bg">
-        <span class="ph-icon">🪵</span>
-        <span>Foto do piso laminado instalado (300dpi)</span>
+      <div class="ph-bg" style="padding:0; background:none; border:none;">
+        <img src="assets/piso_detalhe.png" style="width:100%; height:100%; object-fit:cover; display:block;" alt="Laminado">
       </div>
       <div class="produto-page-overlay"></div>
       <div class="produto-page-title">
@@ -769,9 +763,9 @@
       <div>
         <p class="section-label">Exemplos de acabamento</p>
         <div class="fotos-row">
-          <div class="img-ph"><span class="ph-icon">📸</span><span>Modelo 1</span></div>
-          <div class="img-ph"><span class="ph-icon">📸</span><span>Modelo 2</span></div>
-          <div class="img-ph"><span class="ph-icon">📸</span><span>Modelo 3</span></div>
+          <div class="img-ph"><span>Modelo 1</span></div>
+          <div class="img-ph"><span>Modelo 2</span></div>
+          <div class="img-ph"><span>Modelo 3</span></div>
         </div>
       </div>
     </div>
@@ -787,9 +781,8 @@
   <div class="page-label">Página 4 — Piso Vinílico</div>
   <div class="page">
     <div class="produto-page-header" style="background:var(--gold-dark);">
-      <div class="ph-bg">
-        <span class="ph-icon">🏊</span>
-        <span>Foto do piso vinílico instalado (300dpi)</span>
+      <div class="ph-bg" style="padding:0; background:none; border:none;">
+        <img src="assets/piso_quarto.png" style="width:100%; height:100%; object-fit:cover; display:block;" alt="Vinilico">
       </div>
       <div class="produto-page-overlay"></div>
       <div class="produto-page-title">
@@ -843,9 +836,9 @@
       <div>
         <p class="section-label">Exemplos de acabamento</p>
         <div class="fotos-row">
-          <div class="img-ph"><span class="ph-icon">📸</span><span>Modelo 1</span></div>
-          <div class="img-ph"><span class="ph-icon">📸</span><span>Modelo 2</span></div>
-          <div class="img-ph"><span class="ph-icon">📸</span><span>Modelo 3</span></div>
+          <div class="img-ph"><span>Modelo 1</span></div>
+          <div class="img-ph"><span>Modelo 2</span></div>
+          <div class="img-ph"><span>Modelo 3</span></div>
         </div>
       </div>
     </div>
@@ -861,7 +854,7 @@
   <div class="page-label">Página 5 — Rodapés e Complementos + Tabela de Preços</div>
   <div class="page">
     <div class="page-header">
-      <img src="assets/logo.jpg" alt="Real Pisos" />
+      <img src="assets/logo-transparent-light.png" alt="Real Pisos" />
       <div class="page-header-right"><p>Complementos &amp; Preços</p></div>
     </div>
     <div class="gold-line"></div>
@@ -871,17 +864,14 @@
         <p class="section-label">Rodapés e complementos</p>
         <div class="rodapes-grid">
           <div class="rodape-card">
-            <div class="r-icon">🪵</div>
             <h4>Rodapé MDF</h4>
             <p>Acabamento nobre, pintura laca. Diversas alturas disponíveis.</p>
           </div>
           <div class="rodape-card">
-            <div class="r-icon">🔩</div>
             <h4>Rodapé PVC</h4>
             <p>Resistente à umidade. Ideal para áreas com vinílico.</p>
           </div>
           <div class="rodape-card">
-            <div class="r-icon">✨</div>
             <h4>Perfis de Acabamento</h4>
             <p>Perfis de transição, redução e canto para um resultado perfeito.</p>
           </div>
@@ -950,7 +940,7 @@
   <div class="page-label">Página 6 — Portfólio de projetos</div>
   <div class="page">
     <div class="page-header">
-      <img src="assets/logo.jpg" alt="Real Pisos" />
+      <img src="assets/logo-transparent-light.png" alt="Real Pisos" />
       <div class="page-header-right"><p>Nossos Projetos</p></div>
     </div>
     <div class="gold-line"></div>
@@ -965,8 +955,8 @@
 
       <div class="portfolio-grid">
         <div class="portfolio-item">
-          <div class="img-ph" style="height:160px;">
-            <span class="ph-icon">📸</span><span>Foto projeto 1</span>
+          <div class="img-ph" style="height:160px; padding:0; overflow:hidden; border:none; background:none;">
+            <img src="assets/piso_sala.png" style="width:100%; height:100%; object-fit:cover; display:block;" alt="Projeto 1">
           </div>
           <div class="portfolio-caption">
             <p>Residência — Sala e Quartos</p>
@@ -974,8 +964,8 @@
           </div>
         </div>
         <div class="portfolio-item">
-          <div class="img-ph" style="height:160px;">
-            <span class="ph-icon">📸</span><span>Foto projeto 2</span>
+          <div class="img-ph" style="height:160px; padding:0; overflow:hidden; border:none; background:none;">
+            <img src="assets/piso_quarto.png" style="width:100%; height:100%; object-fit:cover; display:block;" alt="Projeto 2">
           </div>
           <div class="portfolio-caption">
             <p>Apartamento — Área completa</p>
@@ -983,8 +973,8 @@
           </div>
         </div>
         <div class="portfolio-item">
-          <div class="img-ph" style="height:160px;">
-            <span class="ph-icon">📸</span><span>Foto projeto 3</span>
+          <div class="img-ph" style="height:160px; padding:0; overflow:hidden; border:none; background:none;">
+            <img src="assets/piso_escritorio.png" style="width:100%; height:100%; object-fit:cover; display:block;" alt="Projeto 3">
           </div>
           <div class="portfolio-caption">
             <p>Escritório Comercial</p>
@@ -992,8 +982,8 @@
           </div>
         </div>
         <div class="portfolio-item">
-          <div class="img-ph" style="height:160px;">
-            <span class="ph-icon">📸</span><span>Foto projeto 4</span>
+          <div class="img-ph" style="height:160px; padding:0; overflow:hidden; border:none; background:none;">
+            <img src="assets/piso_clinica.png" style="width:100%; height:100%; object-fit:cover; display:block;" alt="Projeto 4">
           </div>
           <div class="portfolio-caption">
             <p>Cozinha e Banheiro</p>
@@ -1022,7 +1012,7 @@
   <div class="page-label">Página 7 — Como funciona + CTA</div>
   <div class="page">
     <div class="page-header">
-      <img src="assets/logo.jpg" alt="Real Pisos" />
+      <img src="assets/logo-transparent-light.png" alt="Real Pisos" />
       <div class="page-header-right"><p>Como funciona</p></div>
     </div>
     <div class="gold-line"></div>
@@ -1067,8 +1057,8 @@
         <p>Sem compromisso · Resposta em até 2 horas · Instalação inclusa</p>
         <span class="cta-wpp">(31) 9 9469-9586</span>
         <div class="cta-redes">
-          <span>📷 @realpisoslaminados</span>
-          <span>👤 @realpisoslaminados</span>
+          <span>(31) 9 9469-9586</span>
+          <span>@realpisoslaminados</span>
         </div>
       </div>
     </div>
@@ -1085,20 +1075,17 @@
   <div class="page contracapa-page">
     <div class="gold-line"></div>
     <div class="contracapa-inner" style="flex:1;justify-content:center;">
-      <img src="assets/logo.jpg" alt="Real Pisos" />
+      <img src="assets/logo-gold.png" alt="Real Pisos" />
       <div>
         <h2>Real Pisos<br><em>Laminados e Vinílicos</em></h2>
         <p class="sub" style="margin-top:8px;">Qualidade que se vê. Durabilidade que se sente.</p>
       </div>
       <div class="contracapa-contatos-fin">
         <div class="fin-contact">
-          <span>📱 <strong>(31) 9 9469-9586</strong></span>
+          <span>WhatsApp: <strong>(31) 9 9469-9586</strong></span>
         </div>
         <div class="fin-contact">
-          <span>📷 <strong>@realpisoslaminados</strong></span>
-        </div>
-        <div class="fin-contact">
-          <span>📍 <strong><!-- CONFIRMAR -->Endereço a confirmar</strong></span>
+          <span>Instagram: <strong>@realpisoslaminados</strong></span>
         </div>
       </div>
       <img src="assets/monograma.png" alt="" class="monograma-watermark" />

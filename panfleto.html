@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panfleto — Real Pisos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 80px 20px 40px;
+      gap: 12px;
+    }
+    .page-label {
+      color: #555;
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-top: 40px;
+    }
+
+    /* A5 = 559 × 794px a 96dpi */
+    .page[data-format="a5"] {
+      width: 559px;
+      height: 794px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 64px rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Filete interno ─────────────────────────────────────── */
+    .filete {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    /* ══ FRENTE ═══════════════════════════════════════════════ */
+    .frente {
+      background: #0D0D0D;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Foto de fundo em overlay */
+    .foto-bg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 65%;
+      overflow: hidden;
+    }
+    .foto-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* Gradiente sobre a foto para garantir legibilidade */
+    .foto-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 60%;
+      background: linear-gradient(to top, #0D0D0D 40%, transparent 100%);
+    }
+
+    /* Conteúdo da frente */
+    .frente-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: space-between;
+      padding: 28px 32px 32px;
+    }
+    .frente-logo {
+      width: 110px;
+    }
+    .frente-headline {
+      margin-top: auto;
+    }
+    .frente-headline h1 {
+      font-family: var(--font-title);
+      font-size: 30pt;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+    .frente-headline h1 em {
+      color: var(--gold);
+      font-style: italic;
+    }
+    .frente-headline p {
+      font-size: 8pt;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.08em;
+      line-height: 1.6;
+      font-family: var(--font-body);
+      font-weight: 300;
+    }
+    .gold-bar {
+      height: 2px;
+      background: var(--gold-gradient);
+      margin-top: 22px;
+    }
+
+    /* ══ VERSO ════════════════════════════════════════════════ */
+    .verso {
+      background: var(--off-white);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .verso-header {
+      background: #0D0D0D;
+      padding: 22px 32px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .verso-header .logo-white {
+      width: 90px;
+    }
+    .verso-header h2 {
+      font-family: var(--font-title);
+      font-size: 14pt;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+    .verso-gold-bar {
+      height: 2px;
+      background: var(--gold-gradient);
+    }
+
+    .verso-body {
+      padding: 28px 32px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .section-label {
+      font-size: 6.5pt;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      font-weight: 700;
+      padding-bottom: 7px;
+      border-bottom: 1px solid var(--gold);
+      margin-bottom: 12px;
+    }
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .feature-item {
+      font-size: 8.5pt;
+      color: var(--gray-600);
+      line-height: 1.6;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    .feature-item::before {
+      content: '';
+      display: block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+    .feature-item strong {
+      color: var(--black-soft);
+    }
+
+    .foto-verso {
+      flex: 1;
+      overflow: hidden;
+      border-radius: 2px;
+    }
+    .foto-verso img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .verso-footer {
+      background: #0D0D0D;
+      padding: 14px 32px;
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 7pt;
+      letter-spacing: 2px;
+      color: var(--gold-muted);
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <a href="index.html" class="back-link">← Voltar</a>
+    <span class="toolbar-title">Panfleto A5 — Frente e Verso</span>
+    <button class="btn-print" onclick="window.print()">Imprimir / PDF</button>
+  </div>
+
+  <div class="page-wrapper">
+    <div class="preview-panel">
+
+      <!-- ── FRENTE ────────────────────────────────────────── -->
+      <div class="page-label">Frente</div>
+      <div class="page" data-format="a5">
+        <div class="frente">
+          <!-- Foto de ambiente em fundo -->
+          <div class="foto-bg">
+            <img src="assets/piso_sala.png" alt="Ambiente com piso Real Pisos">
+            <div class="foto-overlay"></div>
+          </div>
+
+          <!-- Filete dourado -->
+          <svg class="filete" viewBox="0 0 559 794" xmlns="http://www.w3.org/2000/svg">
+            <rect x="18" y="18" width="523" height="758" fill="none" stroke="#C5963A" stroke-width="0.6" opacity="0.6"/>
+          </svg>
+
+          <div class="frente-content">
+            <img src="assets/logo-transparent-light.png" alt="Real Pisos" class="frente-logo">
+            <div class="frente-headline">
+              <h1>Transforme<br>seu <em>ambiente</em></h1>
+              <p>Pisos laminados e vinílicos de alta qualidade<br>com instalação profissional e garantia assegurada.</p>
+              <div class="gold-bar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── VERSO ─────────────────────────────────────────── -->
+      <div class="page-label">Verso</div>
+      <div class="page" data-format="a5">
+        <div class="verso">
+          <!-- Filete dourado -->
+          <svg class="filete" viewBox="0 0 559 794" xmlns="http://www.w3.org/2000/svg">
+            <rect x="18" y="18" width="523" height="758" fill="none" stroke="#C5963A" stroke-width="0.6" opacity="0.5"/>
+          </svg>
+
+          <div class="verso-header">
+            <img src="assets/logo-transparent-light.png" alt="Real Pisos" class="logo-white">
+            <h2>Por que nos escolher?</h2>
+          </div>
+          <div class="verso-gold-bar"></div>
+
+          <div class="verso-body">
+            <div>
+              <div class="section-label">Nossos diferenciais</div>
+              <div class="features">
+                <div class="feature-item"><strong>Instalação rápida:</strong> Equipe especializada e pontual.</div>
+                <div class="feature-item"><strong>Durabilidade:</strong> Materiais resistentes a riscos e umidade.</div>
+                <div class="feature-item"><strong>Conforto térmico e acústico:</strong> Ambientes agradáveis o ano todo.</div>
+                <div class="feature-item"><strong>Garantia total:</strong> Qualidade assegurada em cada etapa do projeto.</div>
+                <div class="feature-item"><strong>Sem quebra-quebra:</strong> Instalação sobre o contrapiso ou cerâmica existente.</div>
+              </div>
+            </div>
+
+            <div class="foto-verso">
+              <img src="assets/piso_detalhe.png" alt="Detalhe do piso">
+            </div>
+          </div>
+
+          <div class="verso-footer">
+            (31) 9 9469-9586 &nbsp;|&nbsp; @realpisoslaminados
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
