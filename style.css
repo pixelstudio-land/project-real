@@ -501,7 +501,7 @@ body {
   align-items: center;
   gap: 20px;
 }
-.timbrado-header img { width: 80px; }
+.timbrado-header img { width: 110px; }
 .timbrado-header-text { color: var(--white); }
 .timbrado-header-text h1 {
   font-family: var(--font-title);
@@ -594,7 +594,7 @@ body {
   padding: 14px 0 10px;
 }
 .cracha-logo-area img {
-  width: 55px;
+  width: 75px;
 }
 .cracha-divider { width: 60px; height: 1px; background: var(--gold); margin: 4px 0; opacity: 0.5; }
 
